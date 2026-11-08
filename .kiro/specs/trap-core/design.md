@@ -130,16 +130,43 @@ async def start_server(config: Config) -> None: ...
 
 ### `trap/auth/tracker.py` — Attempt tracker
 
-Tracks per-IP authentication attempt counts within a rolling one-hour window. Pure in-memory dict; no external storage.
+Tracks per-IP authentication attempt counts within a rolling one-hour window. Pure in-memory structure; no external storage.
+
+**Data structure:**
+- An `OrderedDict[str, deque[datetime]]` mapping each source IP to a deque of UTC timestamps of authentication attempts from that IP.
+- The `OrderedDict` insertion/access order is used to track recency: on every access to an IP's entry, that IP is moved to the end (most-recently-seen).
+
+**Memory caps (both enforced on every `record_attempt` call):**
+1. **Per-IP timestamp cap:** Each IP's deque holds at most `n + 1` timestamps, where `n` is the configured `TRAP_ACCEPT_AFTER_ATTEMPTS` threshold (or a safe default of 101 when the threshold is not configured). If the deque is already at capacity, the oldest timestamp is discarded before appending the new one.
+2. **IP count cap:** The `OrderedDict` holds at most 10,000 IPs. When a new IP would exceed this limit, the least-recently-seen IP (the first entry in the `OrderedDict`) is evicted before inserting the new one.
+
+**Pruning:**
+- On every call to `record_attempt(src_ip)` and `should_accept(src_ip, n)`, timestamps older than 1 hour from the current UTC time are pruned from the left of that IP's deque before any other logic.
+- If pruning empties an IP's deque, the IP key is removed from the `OrderedDict`.
 
 ```python
-class AttemptTracker:
-    def record_attempt(self, src_ip: str) -> None: ...
-    def should_accept(self, src_ip: str, n: int) -> bool:
-        """Returns True if attempt count from src_ip >= n within the rolling window."""
-```
+from collections import OrderedDict, deque
+from datetime import datetime, timedelta, timezone
 
-The window is implemented as a `deque` of `(timestamp, ip)` tuples. `record_attempt` appends; before each check, entries older than one hour are pruned from the left.
+MAX_TRACKED_IPS: int = 10_000
+
+class AttemptTracker:
+    def __init__(self, max_attempts_per_ip: int = 101) -> None:
+        self._window: OrderedDict[str, deque[datetime]] = OrderedDict()
+        self._max_per_ip: int = max_attempts_per_ip
+
+    def record_attempt(self, src_ip: str) -> None:
+        """Record one attempt from src_ip; enforces both memory caps."""
+
+    def should_accept(self, src_ip: str, n: int) -> bool:
+        """Return True if attempt count from src_ip within the last hour >= n."""
+
+    def _prune_ip(self, src_ip: str) -> None:
+        """Remove timestamps older than 1 hour for src_ip; remove key if deque empty."""
+
+    def _move_to_end(self, src_ip: str) -> None:
+        """Mark src_ip as most-recently-seen in the OrderedDict."""
+```
 
 ### `trap/ghost/shell.py` — Ghost Shell session
 
@@ -176,6 +203,8 @@ Max duration is enforced by wrapping the entire prompt loop in `asyncio.timeout(
 ### `trap/ghost/filesystem.py` — Fake Filesystem
 
 An in-memory tree of `FakeNode` objects. Seeded from `fs_template.yaml` via deep copy per session, ensuring complete isolation between concurrent sessions.
+
+> **YAML loading safety:** `fs_template.yaml` MUST be loaded with `yaml.safe_load` only. `yaml.load` (without an explicit Loader argument) is forbidden anywhere in `trap/`.
 
 ```python
 @dataclasses.dataclass
@@ -626,6 +655,17 @@ root:
 
 ---
 
+### Property 22: AttemptTracker memory is bounded
+
+*For any* sequence of `record_attempt` calls with any combination of source IPs and timestamps, the `AttemptTracker` internal state SHALL satisfy:
+- The number of tracked IPs SHALL never exceed 10,000.
+- The number of timestamps stored per IP SHALL never exceed `max_attempts_per_ip` (`n + 1`).
+- Total memory consumed by the tracker SHALL therefore be O(10,000 × (n + 1)) regardless of input volume.
+
+**Validates: Requirements 2.7**
+
+---
+
 ## Error Handling
 
 ### Startup errors
@@ -703,6 +743,7 @@ Property test inventory (maps directly to Correctness Properties above):
 | `test_download_simulation` | P19 | `st.from_regex(r'https?://[a-z0-9./\-]+\.[a-z]{2,}/[a-z0-9.\-]+')` |
 | `test_attempt_counter_threshold` | P20 | `st.ip_addresses()`, `st.integers(min_value=1, max_value=10)` |
 | `test_oversized_input_discarded` | P21 | `st.text(min_size=4097, max_size=8192)` |
+| `test_attempt_tracker_memory_bounded` | P22 | `st.lists(st.ip_addresses(), min_size=1, max_size=50_000)` with `max_attempts_per_ip=5` |
 
 ### Static analysis
 
@@ -714,7 +755,7 @@ bandit -r trap/ -ll   # fail on high-severity only
 mypy --strict trap/
 ```
 
-The `bandit` check is a hard gate; any high-severity finding blocks the merge. The no-execution invariant (Property 2) is verified both dynamically (P2 property test using `unittest.mock.patch`) and statically (bandit rule `B603`, `B602`, `B605`).
+The `bandit` check is a hard gate; any high-severity finding blocks the merge. The no-execution invariant (Property 2) is verified both dynamically (P2 property test using `unittest.mock.patch`) and statically (bandit rule `B603`, `B602`, `B605`). `yaml.safe_load` is the only permitted YAML loader; `yaml.load` is banned and caught by `bandit` rule `B506`.
 
 ### Integration smoke test
 
