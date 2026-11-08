@@ -15,7 +15,7 @@ Any server on the internet is attacked by bots within minutes. Small organisatio
 | **The Trap** | Fake SSH server that accepts weak logins and records every keystroke. Nothing is ever executed. |
 | **The Ghost Shell** | Answers commands from a fake filesystem; an LLM improvises believable replies to unusual commands. |
 | **The Brain** | Writes plain-English field notes, maps behaviour to MITRE ATT&CK, enriches IPs with threat intel. |
-| **The Dashboard** | Live Feed, Footage (session replay) and Containment (generated hardening rules), in a night-vision camcorder theme. |
+| **The Dashboard** | Lab Monitor, Lab Tapes (session replay) and Containment (generated hardening rules), in a "Frankenstein Lab Cam" theme. |
 
 ## Quick start
 _Coming soon:_ `docker compose up -d`

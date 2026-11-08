@@ -20,17 +20,19 @@ An AI-powered SSH honeypot that traps attackers inside a believable "haunted" fa
 1. **The Trap** — a fake SSH server that accepts weak logins and records every keystroke. Nothing the attacker types is ever executed.
 2. **The Ghost Shell** — answers common commands from a fake filesystem; unusual commands are answered by an LLM so the fake system stays believable and consistent within a session.
 3. **The Brain** — stores sessions, writes plain-English "field notes", maps behaviour to MITRE ATT&CK techniques, and enriches attacker IPs with public threat intel.
-4. **The Dashboard** — a "ghost hunter camcorder" themed web app: Live Feed, Footage (session replay), Containment (auto-generated hardening rules).
+4. **The Dashboard** — a "Frankenstein Lab Cam" themed web app: Lab Monitor (overview), Lab Tapes (session replay), Containment (auto-generated hardening rules).
 
 ## Vocabulary (use consistently in UI copy)
 | Real meaning | Product term |
 |---|---|
-| Attacker / IP | Entity |
-| Attack session | Sighting / Tape |
-| Session replay page | Footage |
+| Attacker / IP | Specimen (code may keep the name `Entity`) |
+| Attack session | Experiment / Tape |
+| Session replay page | Lab Tapes |
 | Severity (low/medium/high) | Class 1 / Class 3 / Class 5 |
-| Generated fixes / blocklist | Containment |
-| Overview page | Live Feed |
+| Threat level | Lab voltage |
+| Generated fixes / blocklist | Containment ("pull the lever") |
+| Overview page | Lab Monitor |
+| LLM-invented shell response | Stitched |
 
 Spooky wording must never hide meaning: every themed label is paired with a plain-language description.
 
