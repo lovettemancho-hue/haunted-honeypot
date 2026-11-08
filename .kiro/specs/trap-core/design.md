@@ -59,15 +59,17 @@ The implementation is pure Python 3.12 with `asyncssh` and `aiofiles`. All proce
 
 ```
 Attacker TCP → asyncssh server.py
-                ↓  auth handler (credential list + attempt tracker)
-                ↓  login_attempt Event → logger.py
-                ↓  (if accepted) shell.py session coroutine
+                ↓  connection_made → open EventLogger → session_start Event
+                ↓  password_auth_requested (credential set + attempt tracker)
+                ↓  login_attempt Event → logger
+                ↓  (if rejected, on connection_lost) → session_end("disconnect") → close EventLogger
+                ↓  (if accepted) shell.py session coroutine (EventLogger handed over)
                       ↓  MOTD + prompt loop
                       ↓  dispatcher.py (chain tokeniser → handler registry)
                       ↓  command handler (filesystem.py / commands/)
-                      ↓  command + response Events → logger.py
+                      ↓  command + response Events → logger
                       ↓  output returned to attacker
-                ↓  session_end Event → logger.py → flush + close
+                ↓  session_end Event → logger → flush + close
 ```
 
 ### Concurrency model
@@ -111,19 +113,21 @@ Validation rules:
 
 ### `trap/server.py` — SSH server
 
-Wraps `asyncssh.create_server`. Owns host key lifecycle and the password-auth handler.
+Wraps `asyncssh.create_server`. Owns host key lifecycle, the password-auth handler, and the `EventLogger` lifecycle.
 
 Key responsibilities:
 - On startup: load or generate Ed25519 host key via `asyncssh.generate_private_key` / `asyncssh.read_private_key`.
-- Register `TrapServerFactory` (subclass of `asyncssh.SSHServer`) which overrides `password_auth_requested`.
-- Auth handler checks the credential list, consults the attempt tracker, records a `login_attempt` event, and returns `True`/`False`.
-- On accepted auth, hands control to a `GhostShellSession` (asyncssh `SSHServerProcess`).
+- Register `TrapServer` (subclass of `asyncssh.SSHServer`) which overrides `connection_made`, `password_auth_requested`, and `connection_lost`.
+- `connection_made`: assigns a `session_id`, opens the `EventLogger`, and writes a `session_start` Event.
+- Auth handler checks `(username, password) in creds` where `creds: set[tuple[str, str]]`, consults the attempt tracker, records a `login_attempt` event, and returns `True`/`False`.
+- On accepted auth, hands the already-open `EventLogger` to `run_shell()`; sets `self._shell_took_over = True` so `connection_lost` does not write a duplicate `session_end`.
+- On connection close without successful auth: `connection_lost` writes a `session_end` Event with `reason="disconnect"` and closes the `EventLogger`.
 
 ```python
 class TrapServer(asyncssh.SSHServer):
-    def password_auth_requested(
-        self, username: str, password: str
-    ) -> bool: ...
+    def connection_made(self, conn: asyncssh.SSHServerConnection) -> None: ...
+    def password_auth_requested(self, username: str, password: str) -> bool: ...
+    def connection_lost(self, exc: Exception | None) -> None: ...
 
 async def start_server(config: Config) -> None: ...
 ```
@@ -184,19 +188,18 @@ async def run_shell(
 ```
 
 Sequence within `run_shell`:
-1. Write `session_start` event.
-2. Send MOTD.
-3. Enter prompt loop:
+1. Send MOTD.
+2. Enter prompt loop:
    - Send prompt string (`[user@records-srv-09 ~]#`).
    - `asyncio.wait_for(process.stdin.readline(), timeout=idle_timeout)` — raises `asyncio.TimeoutError` on idle.
    - Truncate input at `max_input_line` chars; if over-length, send `bash: line too long` and continue.
    - Dispatch command, collect output.
    - Write `command` + `response` events.
    - Send output.
-4. On clean exit (Entity ran `exit`): write `session_end` with `reason="exit"`.
-5. On `asyncio.TimeoutError` (idle): write `session_end` with `reason="idle_timeout"`.
-6. On max-duration exceeded (outer `asyncio.timeout` wrapping the loop): write `session_end` with `reason="max_duration"`.
-7. On SSH disconnect: write `session_end` with `reason="disconnect"`.
+3. On clean exit (Entity ran `exit`): write `session_end` with `reason="exit"`.
+4. On `asyncio.TimeoutError` (idle): write `session_end` with `reason="idle_timeout"`.
+5. On max-duration exceeded (outer `asyncio.timeout` wrapping the loop): write `session_end` with `reason="max_duration"`.
+6. On SSH disconnect: write `session_end` with `reason="disconnect"`.
 
 Max duration is enforced by wrapping the entire prompt loop in `asyncio.timeout(config.max_session_seconds)`.
 
@@ -263,6 +266,10 @@ Chain tokenisation rules (pure Python, no subprocess):
 - Tokenisation is done with a simple state machine that respects single- and double-quoted strings (no nested quotes required).
 - If a handler raises an exception, the dispatcher catches it, logs it, and continues with remaining tokens in the chain.
 
+`_dispatch_single` path-execution check: **before** looking up the command in the handler registry, if `tokens[0]` starts with `./` or `/`:
+- If the basename of the path is in `ctx.downloaded_files`: return `CommandResult(output="Segmentation fault (core dumped)", is_error=True)`.
+- Otherwise: return `CommandResult(output=f"bash: {tokens[0]}: No such file or directory", is_error=True)`.
+
 ### `trap/ghost/commands/` — Command handlers
 
 Each module is a collection of pure async functions registered with the dispatcher at startup. All handlers receive `(args: list[str], ctx: SessionContext)` and return `CommandResult`.
@@ -279,6 +286,8 @@ Each module is a collection of pure async functions registered with the dispatch
 All handlers are small, pure functions. They call methods on `ctx.fs` (the `FakeFilesystem`) and return a string. No handler touches the real filesystem or makes network calls.
 
 `exit` signals the shell loop to close by raising a sentinel exception `SessionExitRequested` (caught by `shell.py`).
+
+`download.py` after creating the fake file in the Fake Filesystem, also adds the basename to `ctx.downloaded_files` so the dispatcher can detect later execution attempts.
 
 ### `trap/ghost/llm.py` — LLM Interface
 
@@ -391,6 +400,7 @@ class SessionContext:
     session: Session
     fs: FakeFilesystem
     history: list[str]       # commands issued this session, in order
+    downloaded_files: set[str]   # basenames of files created by wget/curl
     config: Config
 ```
 
@@ -504,7 +514,7 @@ root:
 
 ### Property 4: Credential authentication round-trip
 
-*For any* username/password pair present in the credential list, the auth handler SHALL accept it; *for any* username/password pair absent from the credential list (and where the attempt-count threshold is not met), the auth handler SHALL reject it.
+*For any* username/password pair present in the credential set (a set of `(username, password)` tuples), the auth handler SHALL accept it (`(username, password) in credential_set` is `True`); *for any* username/password pair absent from the credential set (and where the attempt-count threshold is not met), the auth handler SHALL reject it.
 
 **Validates: Requirements 2.1, 2.2**
 
@@ -666,6 +676,16 @@ root:
 
 ---
 
+### Property 23: Executing a downloaded file returns segfault; executing an unknown path returns command-not-found
+
+*For any* filename previously created by a simulated `wget` or `curl` command, attempting to execute `./<filename>` or the absolute path SHALL return `Segmentation fault (core dumped)`.
+
+*For any* path token starting with `./` or `/` that was NOT created by a download, the dispatcher SHALL return `bash: <path>: No such file or directory`.
+
+**Validates: Requirements 6.5**
+
+---
+
 ## Error Handling
 
 ### Startup errors
@@ -744,6 +764,7 @@ Property test inventory (maps directly to Correctness Properties above):
 | `test_attempt_counter_threshold` | P20 | `st.ip_addresses()`, `st.integers(min_value=1, max_value=10)` |
 | `test_oversized_input_discarded` | P21 | `st.text(min_size=4097, max_size=8192)` |
 | `test_attempt_tracker_memory_bounded` | P22 | `st.lists(st.ip_addresses(), min_size=1, max_size=50_000)` with `max_attempts_per_ip=5` |
+| `test_downloaded_file_execution` | P23 | `st.from_regex(r'[a-z][a-z0-9_\-]{0,31}\.[a-z]{1,4}')` for filenames; verify segfault after download, command-not-found for unknown paths |
 
 ### Static analysis
 
