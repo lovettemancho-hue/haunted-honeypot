@@ -1,0 +1,1 @@
+# trap.auth — authentication helpers

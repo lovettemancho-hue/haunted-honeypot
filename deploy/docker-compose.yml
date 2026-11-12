@@ -1,0 +1,88 @@
+# ---------------------------------------------------------------------------
+# Haunted Honeypot — Docker Compose service definitions
+#
+# Usage:  docker compose -f deploy/docker-compose.yml up -d
+#         (or symlink / copy to workspace root and use `docker compose up -d`)
+#
+# Start from the repository root so the build context resolves correctly:
+#   docker compose -f deploy/docker-compose.yml build
+# ---------------------------------------------------------------------------
+
+version: "3.9"
+
+services:
+
+  # -------------------------------------------------------------------------
+  # trap — fake SSH server (The Trap + Ghost Shell)
+  # -------------------------------------------------------------------------
+  trap:
+    build:
+      context: ..
+      dockerfile: trap/Dockerfile
+    image: haunted-trap:latest
+    restart: unless-stopped
+
+    # Harden the container: read-only root filesystem, no capabilities,
+    # tmpfs for writable paths the runtime actually needs.
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+      - /run:size=16m,mode=0755
+
+    # Drop every Linux capability. The trap only needs network I/O on a
+    # non-privileged port; no capabilities are required for that.
+    cap_drop:
+      - ALL
+
+    # Hard resource limits so a runaway session cannot exhaust the host.
+    mem_limit: 256m
+    cpus: "0.5"
+
+    # Persist the SSH host key across restarts and collect session logs.
+    volumes:
+      - trap_keys:/data/keys
+      - trap_logs:/data/logs
+
+    # Port mapping: host port 2222 → container port 2222.
+    # (The host firewall should redirect port 22 → 2222.)
+    ports:
+      - "2222:2222"
+
+    # All secrets and tunable parameters come from a .env file.
+    # Copy .env.example → .env and fill in values before first run.
+    env_file:
+      - ../.env
+
+    # Sensible defaults that the .env file can override.
+    environment:
+      TRAP_PORT: "2222"
+      TRAP_HOST_KEY_PATH: "/data/keys/host_ed25519"
+      TRAP_LOG_DIR: "/data/logs"
+      TRAP_CREDENTIAL_FILE: "/app/trap/credentials_default.txt"
+      TRAP_IDLE_TIMEOUT_SECONDS: "300"
+      TRAP_MAX_SESSION_SECONDS: "1800"
+      TRAP_LLM_BACKEND: "scripted"
+      # TRAP_LLM_API_URL and TRAP_LLM_API_KEY are set in .env only.
+      # TRAP_ACCEPT_AFTER_ATTEMPTS is optional; leave unset to disable.
+
+    # The trap has no need to reach the brain or dashboard directly;
+    # it writes per-session log files to the shared volume and that is the
+    # only handoff point. Network isolation is intentional.
+    networks:
+      - trap_net
+
+# ---------------------------------------------------------------------------
+# Named volumes
+# ---------------------------------------------------------------------------
+volumes:
+  trap_keys:
+    driver: local
+  trap_logs:
+    driver: local
+
+# ---------------------------------------------------------------------------
+# Networks
+# ---------------------------------------------------------------------------
+networks:
+  trap_net:
+    driver: bridge

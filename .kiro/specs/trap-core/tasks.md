@@ -6,7 +6,7 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
 
 ## Tasks
 
-- [ ] 1. Project scaffold and tooling
+- [x] 1. Project scaffold and tooling
   - Create the full directory tree: `trap/`, `trap/auth/`, `trap/ghost/`, `trap/ghost/commands/`, `tests/`
   - Add `__init__.py` to every package directory
   - Write `pyproject.toml` with: `[project]` metadata, `[project.dependencies]` pinning `asyncssh`, `aiofiles`, `pyyaml` (runtime only); `[project.optional-dependencies]` with `dev = ["hypothesis", "pytest", "pytest-asyncio"]`; `[tool.ruff]` section targeting Python 3.12; `[tool.mypy]` with `strict = true`; `[tool.bandit]` with `targets = ["trap/"]`; `[tool.pytest.ini_options]` with `asyncio_mode = "auto"`
