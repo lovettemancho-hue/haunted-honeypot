@@ -15,11 +15,6 @@ FROM python:3.12-slim AS base
 # ---------------------------------------------------------------------------
 # System setup
 # ---------------------------------------------------------------------------
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
-
 # Create a non-root user (uid 1000) so the container never runs as root.
 RUN groupadd --gid 1000 trapuser \
     && useradd --uid 1000 --gid trapuser --no-create-home --shell /bin/false trapuser
@@ -31,7 +26,7 @@ WORKDIR /app
 # Dev extras (hypothesis, pytest, pytest-asyncio) are intentionally excluded
 # from the production image — use `pip install ".[dev]"` in CI/test only.
 # ---------------------------------------------------------------------------
-COPY pyproject.toml ./
+COPY pyproject.toml README.md ./
 # Copy the package source so setuptools can resolve the package metadata.
 COPY trap/ ./trap/
 
@@ -48,6 +43,9 @@ ENV TRAP_PORT=2222 \
     TRAP_CREDENTIAL_FILE=/app/trap/credentials_default.txt
 
 EXPOSE 2222
+
+# Pre-create data dirs owned by trapuser; named volumes inherit this ownership.
+RUN mkdir -p /data/keys /data/logs && chown -R trapuser:trapuser /data
 
 # Drop to non-root user for all subsequent operations.
 USER trapuser
