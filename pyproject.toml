@@ -15,10 +15,17 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+   
     "hypothesis",
     "pytest",
     "pytest-asyncio",
+    "ruff",
+    "mypy",
+    "bandit[toml]",
+    "types-aiofiles",
+    "types-PyYAML",
 ]
+
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]

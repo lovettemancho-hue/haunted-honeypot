@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "check trap code on save",
+      "trigger": "PostFileSave",
+      "action": {
+        "type": "agent",
+        "prompt": "Using the project's .venv, run ruff check on trap and tests, bandit -r trap -ll, and pytest -q. Report any failures briefly with the file and line, and suggest the fix. Do not edit files unless I ask."
+      },
+      "description": "When a Python file in trap/ or tests/ is saved, run ruff, bandit and pytest and report any failures.",
+      "matcher": "(trap|tests)[\\\\/].*\\.py$",
+      "enabled": true
+    }
+  ]
+}
