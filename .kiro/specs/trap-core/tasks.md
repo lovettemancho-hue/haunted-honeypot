@@ -14,8 +14,8 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
   - Write the `docker-compose.yml` service fragment for the `trap` service (read_only, tmpfs, named volumes, cap_drop ALL, mem_limit, ports)
   - _Requirements: 1.5, 10.5_
 
-- [ ] 2. Data models (`trap/models.py`)
-  - [ ] 2.1 Implement `Session`, `Event`, `SessionContext` dataclasses
+- [x] 2. Data models (`trap/models.py`)
+  - [x] 2.1 Implement `Session`, `Event`, `SessionContext` dataclasses
     - Define `EventKind` Literal type alias for all 6 kinds: `login_attempt`, `command`, `response`, `download_attempt`, `session_start`, `session_end`
     - Define `SessionEndReason` Literal type alias: `exit`, `idle_timeout`, `max_duration`, `disconnect`, `log_error`
     - Define `GeneratedBy` Literal type alias: `scripted`, `llm`
@@ -25,12 +25,12 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - All fields must have complete type hints; file must pass `mypy --strict`
     - _Requirements: 9.2, 2.3_
 
-  - [ ] 2.2 Write unit tests for data models
+  - [x] 2.2 Write unit tests for data models
     - Verify `Event` serialises to dict via `dataclasses.asdict` and all required fields are present
     - Verify `Session` `ended_at` defaults to `None`
     - _Requirements: 9.2_
 
-- [ ] 3. Config loader (`trap/config.py`)
+- [~] 3. Config loader (`trap/config.py`)
   - [ ] 3.1 Implement `Config` dataclass and `load_config()` function
     - Implement frozen `Config` dataclass matching the design spec (all 10 fields with correct types and defaults)
     - Implement `load_config()`: reads env vars, applies defaults, validates each rule from the design (port range, non-empty paths, positive integers, optional `TRAP_ACCEPT_AFTER_ATTEMPTS`)
@@ -38,7 +38,7 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Hard-code `max_input_line = 4096` (not read from env)
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.6_
 
-  - [ ] 3.2 Write unit tests for config loader (`tests/test_unit_config.py`)
+  - [x] 3.2 Write unit tests for config loader (`tests/test_unit_config.py`)
     - Test all valid env-var combinations including defaults
     - Test each invalid case: non-integer port, port 0, port 66000, empty `TRAP_HOST_KEY_PATH`, empty `TRAP_CREDENTIAL_FILE`, non-integer timeout, non-positive integer timeout
     - Use `pytest.raises(SystemExit)` for failure cases

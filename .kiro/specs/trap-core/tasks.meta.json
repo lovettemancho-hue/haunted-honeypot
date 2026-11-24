@@ -12,6 +12,81 @@
         "chatSessionId": "sess_a23f535a-7971-4c37-a917-6bcf906c2064",
         "timestamp": 1794493539188
       }
+    ],
+    "2.1 Implement `Session`, `Event`, `SessionContext` dataclasses": [
+      {
+        "executionId": "af57a873-874f-49b3-b17d-22cec7541c23",
+        "chatSessionId": "sess_a8ffea0c-30a4-4a29-a769-4fd6ebcf3fa9",
+        "timestamp": 1794679274547
+      },
+      {
+        "executionId": "3a5a5296-503e-446b-a063-dbf864841ce0",
+        "chatSessionId": "sess_1f6bfe89-b87c-4d9b-a2ce-e6a3347bb6b4",
+        "timestamp": 1794765904316
+      },
+      {
+        "executionId": "97d3ee49-7ad1-4138-8db0-509d39c50062",
+        "chatSessionId": "sess_fac62c7c-3dea-462c-aa7c-2cd284d53ee6",
+        "timestamp": 1794850974613
+      },
+      {
+        "executionId": "58f6182e-0486-44b7-a367-fe7ede6b6ab4",
+        "chatSessionId": "sess_5a181b56-85ea-465b-860d-32e9a79d27b6",
+        "timestamp": 1794863219235
+      },
+      {
+        "executionId": "d6c53673-26c3-4e53-b348-2cda409b3de8",
+        "chatSessionId": "sess_0b2c8deb-d2ed-4247-adf9-4c576325dcf5",
+        "timestamp": 1794865153969
+      },
+      {
+        "executionId": "d6c53673-26c3-4e53-b348-2cda409b3de8",
+        "chatSessionId": "sess_0b2c8deb-d2ed-4247-adf9-4c576325dcf5",
+        "timestamp": 1794865498843
+      }
+    ],
+    "2.2 Write unit tests for data models": [
+      {
+        "executionId": "97d3ee49-7ad1-4138-8db0-509d39c50062",
+        "chatSessionId": "sess_fac62c7c-3dea-462c-aa7c-2cd284d53ee6",
+        "timestamp": 1794850981129
+      },
+      {
+        "executionId": "97d3ee49-7ad1-4138-8db0-509d39c50062",
+        "chatSessionId": "sess_fac62c7c-3dea-462c-aa7c-2cd284d53ee6",
+        "timestamp": 1794863188661
+      }
+    ],
+    "2. Data models (`trap/models.py`)": [
+      {
+        "executionId": "97d3ee49-7ad1-4138-8db0-509d39c50062",
+        "chatSessionId": "sess_fac62c7c-3dea-462c-aa7c-2cd284d53ee6",
+        "timestamp": 1794863189189
+      }
+    ],
+    "3.1 Implement `Config` dataclass and `load_config()` function": [
+      {
+        "executionId": "6f03d1e3-ea54-4e9a-87b7-85d380ad8c57",
+        "chatSessionId": "sess_3243df6d-3b64-4d9e-a893-476e8fc81a59",
+        "timestamp": 1794867108724
+      },
+      {
+        "executionId": "0dec3c01-4eed-4c5f-9346-b895b567f2ff",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795025499913
+      }
+    ],
+    "3.2 Write unit tests for config loader (`tests/test_unit_config.py`)": [
+      {
+        "executionId": "0dec3c01-4eed-4c5f-9346-b895b567f2ff",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795025503692
+      },
+      {
+        "executionId": "0dec3c01-4eed-4c5f-9346-b895b567f2ff",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795026789888
+      }
     ]
   }
 }
