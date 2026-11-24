@@ -62,3 +62,6 @@ class SessionContext:
     # Basenames of files created by simulated wget/curl. Keyword-only so it can
     # keep a default while ``config`` (no default) stays a positional field.
     downloaded_files: set[str] = field(default_factory=set, kw_only=True)
+    # Events raised by command handlers (e.g. ``download_attempt``). The shell
+    # loop drains this list and writes each event to the session log.
+    pending_events: list[Event] = field(default_factory=list, kw_only=True)

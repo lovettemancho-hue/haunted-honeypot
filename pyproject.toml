@@ -35,6 +35,10 @@ build-backend = "setuptools.build_meta"
 where = ["."]
 include = ["trap*"]
 
+[tool.setuptools.package-data]
+"trap.ghost" = ["fs_template.yaml"]
+"trap" = ["credentials_default.txt"]
+
 # ---------------------------------------------------------------------------
 # Ruff — linter and formatter, targeting Python 3.12
 # ---------------------------------------------------------------------------
@@ -54,11 +58,6 @@ select = [
     "S",   # flake8-bandit (security)
     "ANN", # flake8-annotations (type hints)
 ]
-ignore = [
-    "ANN101",  # missing type annotation for 'self'
-    "ANN102",  # missing type annotation for 'cls'
-]
-
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S", "ANN"]  # relax security and annotation rules in tests
 
@@ -95,6 +94,7 @@ skips = []
 # ---------------------------------------------------------------------------
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]

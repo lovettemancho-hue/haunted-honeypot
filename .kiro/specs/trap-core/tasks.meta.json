@@ -1,5 +1,26 @@
 {
-  "pbtResults": {},
+  "pbtResults": {
+    "3.3 Write property test for config validation (Property 7)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795521927948
+    },
+    "7.4 Write property tests for echo identity and prompt format (Properties 11, 12)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795523301495
+    },
+    "8.6 Write property tests for download simulation (Property 19)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795524128653
+    },
+    "10.3 Write property tests for attempt tracker (Properties 20, 22)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795524684093
+    },
+    "11.1 Write property test for credential list parse round-trip (Property 6)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795524755644
+    }
+  },
   "executionHistory": {
     "1. Project scaffold and tooling": [
       {
@@ -74,6 +95,11 @@
         "executionId": "0dec3c01-4eed-4c5f-9346-b895b567f2ff",
         "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
         "timestamp": 1795025499913
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795521845953
       }
     ],
     "3.2 Write unit tests for config loader (`tests/test_unit_config.py`)": [
@@ -86,6 +112,620 @@
         "executionId": "0dec3c01-4eed-4c5f-9346-b895b567f2ff",
         "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
         "timestamp": 1795026789888
+      }
+    ],
+    "3.3 Write property test for config validation (Property 7)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795521863603
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795521939303
+      }
+    ],
+    "3. Config loader (`trap/config.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795521939470
+      }
+    ],
+    "4.1 Implement `FakeNode` dataclass and `FakeFilesystem` class": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795521939830
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522023239
+      }
+    ],
+    "4.2 Write the filesystem template (`trap/ghost/fs_template.yaml`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522023670
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522071203
+      }
+    ],
+    "4.3 Write unit tests for filesystem (`tests/test_unit_filesystem.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522071615
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522124977
+      }
+    ],
+    "4.4 Write property tests for filesystem (Properties 3, 8, 9, 10)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522125201
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522195055
+      }
+    ],
+    "4. Fake Filesystem (`trap/ghost/filesystem.py` + `trap/ghost/fs_template.yaml`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522195216
+      }
+    ],
+    "5.1 Implement `EventLogger` async context manager": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522195624
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522269294
+      }
+    ],
+    "5.2 Write unit tests for event logger (`tests/test_unit_logger.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522269805
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522395627
+      }
+    ],
+    "5.3 Write property test for session log JSON Lines round-trip (Property 18)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522396195
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522455355
+      }
+    ],
+    "5. Event logger (`trap/ghost/logger.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522455523
+      }
+    ],
+    "6.1 Implement `LLMInterface` ABC and `ScriptedFallback`": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522455955
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522594241
+      }
+    ],
+    "6.2 Write unit tests for LLM interface (`tests/test_unit_llm.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522594549
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522717129
+      }
+    ],
+    "6.3 Write property tests for ScriptedFallback and LLM exception handling (Properties 13, 14)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522717454
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522801199
+      }
+    ],
+    "6. LLM interface (`trap/ghost/llm.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522801397
+      }
+    ],
+    "7.1 Implement navigation commands (`pwd`, `cd`, `ls`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522801585
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522879686
+      }
+    ],
+    "7.2 Implement info commands (`whoami`, `id`, `uname`, `hostname`, `echo`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795522879967
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523000241
+      }
+    ],
+    "7.3 Write unit tests for navigation and info commands (`tests/test_unit_commands.py` — navigation/info section)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523000850
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523134350
+      }
+    ],
+    "7.4 Write property tests for echo identity and prompt format (Properties 11, 12)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523135200
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523315396
+      }
+    ],
+    "7. Command handlers — navigation and info (`trap/ghost/commands/navigation.py`, `trap/ghost/commands/info.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523315770
+      }
+    ],
+    "8.1 Implement file commands (`cat`, `touch`, `rm`, `mkdir`, `chmod`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523316048
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523469456
+      }
+    ],
+    "8.2 Implement history command (`trap/ghost/commands/history.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523469992
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523670916
+      }
+    ],
+    "8.3 Implement download simulation (`trap/ghost/commands/download.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523671259
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523765588
+      }
+    ],
+    "8.4 Implement exit command (`trap/ghost/commands/exit_.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523765879
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523824071
+      }
+    ],
+    "8.5 Write unit tests for file, history, download, exit commands (`tests/test_unit_commands.py` — files/download/exit section)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795523824393
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524069586
+      }
+    ],
+    "8.6 Write property tests for download simulation (Property 19)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524070092
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524140816
+      }
+    ],
+    "8. Command handlers — files, history, download, exit (`trap/ghost/commands/files.py`, `trap/ghost/commands/history.py`, `trap/ghost/commands/download.py`, `trap/ghost/commands/exit_.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524141053
+      }
+    ],
+    "9.1 Implement `CommandResult` dataclass and `Dispatcher` class": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524141622
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524245957
+      }
+    ],
+    "9.2 Write unit tests for dispatcher (`tests/test_unit_dispatcher.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524246281
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524294629
+      }
+    ],
+    "9.3 Write property tests for dispatcher chains and robustness (Properties 1, 2, 15, 16, 17)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524295178
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524375056
+      }
+    ],
+    "9.4 Write unit test for path-execution dispatch (downloaded vs unknown)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524375615
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524427112
+      }
+    ],
+    "9.5 Write property test for downloaded file execution (Property 23)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524427802
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524520234
+      }
+    ],
+    "9. Command dispatcher (`trap/ghost/dispatcher.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524520423
+      }
+    ],
+    "10.1 Implement `AttemptTracker`": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524520832
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524581955
+      }
+    ],
+    "10.2 Write unit tests for attempt tracker (`tests/test_unit_tracker.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524582368
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524644809
+      }
+    ],
+    "10.3 Write property tests for attempt tracker (Properties 20, 22)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524645422
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524698423
+      }
+    ],
+    "10. Attempt tracker (`trap/auth/tracker.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524698695
+      }
+    ],
+    "11. Default credential file (`trap/credentials_default.txt`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524711792
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524767734
+      }
+    ],
+    "11.1 Write property test for credential list parse round-trip (Property 6)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524767560
+      }
+    ],
+    "12.1 Implement `TrapServer` and `start_server()`": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795524768836
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525012575
+      }
+    ],
+    "12.2 Write property tests for credential auth round-trip (Properties 4, 5)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525012852
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525084760
+      }
+    ],
+    "12. SSH server (`trap/server.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525084909
+      }
+    ],
+    "13.1 Implement `run_shell()` coroutine and MOTD": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525085067
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525362514
+      }
+    ],
+    "13.2 Write property tests for oversized input handling (Property 21)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525362843
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525414610
+      }
+    ],
+    "13. Ghost Shell session (`trap/ghost/shell.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525414792
+      }
+    ],
+    "14. Entry point (`trap/__main__.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525415199
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525454727
+      }
+    ],
+    "15. Checkpoint — unit test suite passes": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525455443
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525628737
+      }
+    ],
+    "16.1 Collect and wire all 22 property test functions into `tests/test_properties.py`": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795525629072
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526211336
+      }
+    ],
+    "16. Property-based test suite (`tests/test_properties.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526211566
+      }
+    ],
+    "17.1 Implement the integration smoke test": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526211800
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526334300
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526340384
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526661664
+      }
+    ],
+    "17. Integration smoke test (`tests/test_integration.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526661850
+      }
+    ],
+    "18.1 Run and fix ruff": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526662030
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526737528
+      }
+    ],
+    "18.2 Run and fix bandit": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526738240
+      }
+    ],
+    "18.3 Run and fix mypy": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526738722
+      }
+    ],
+    "18.4 Write AST-based forbidden-import unit test (`tests/test_no_exec.py`)": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526744238
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526798729
+      }
+    ],
+    "18. Static analysis gate": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526798861
+      }
+    ],
+    "19. Final checkpoint — all tests and static analysis pass": [
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526799489
+      },
+      {
+        "executionId": "6ed57a77-e0ac-49f0-9251-86ee119c479f",
+        "chatSessionId": "sess_74d99111-78d8-4b33-bb75-c76e51cfecce",
+        "timestamp": 1795526877477
       }
     ]
   }

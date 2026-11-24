@@ -1,0 +1,71 @@
+# Seed filesystem for the "records-srv-09" Ghost Shell.
+# Loaded with yaml.safe_load by trap.ghost.filesystem.load_template().
+root:
+  type: dir
+  permissions: "drwxr-xr-x"
+  owner: root
+  mtime: "Jan 15  2009"
+  children:
+    etc:
+      type: dir
+      permissions: "drwxr-xr-x"
+      owner: root
+      mtime: "Jan 15  2009"
+      children:
+        hostname:
+          type: file
+          permissions: "-rw-r--r--"
+          owner: root
+          mtime: "Jan 15  2009"
+          content: "records-srv-09\n"
+    root:
+      type: dir
+      permissions: "drwx------"
+      owner: root
+      mtime: "Mar  3  2011"
+      children: {}
+    home:
+      type: dir
+      permissions: "drwxr-xr-x"
+      owner: root
+      mtime: "Jan 15  2009"
+      children:
+        caretaker:
+          type: dir
+          permissions: "drwxr-xr-x"
+          owner: caretaker
+          mtime: "Oct 31  2013"
+          children:
+            last_words.txt:
+              type: file
+              permissions: "-rw-r--r--"
+              owner: caretaker
+              mtime: "Oct 31  2013"
+              content: |
+                if anyone finds this — the vault has been locked since october.
+                i don't know why the records keep changing. i haven't touched them.
+                -H
+    vault:
+      type: dir
+      permissions: "drwx------"
+      owner: root
+      mtime: "Oct 31  2013"
+      children: {}
+    var:
+      type: dir
+      permissions: "drwxr-xr-x"
+      owner: root
+      mtime: "Jan 15  2009"
+      children:
+        log:
+          type: dir
+          permissions: "drwxr-xr-x"
+          owner: root
+          mtime: "Jan 15  2009"
+          children: {}
+    tmp:
+      type: dir
+      permissions: "drwxrwxrwt"
+      owner: root
+      mtime: "Jan 15  2009"
+      children: {}
