@@ -1,0 +1,25 @@
+[
+    {
+        "id": "sshd-hardening",
+        "kind": "sshd_hardening",
+        "title": "Harden sshd logins",
+        "description": "Specimens got in with a guessed password. Turning off password logins and root logins means guessed passwords no longer work; use SSH keys.",
+        "content": "# Disable password and root logins over SSH\nsed -i -E 's/^#?PasswordAuthentication .*/PasswordAuthentication no/' /etc/ssh/sshd_config\nsed -i -E 's/^#?PermitRootLogin .*/PermitRootLogin no/' /etc/ssh/sshd_config\n# Reload with: systemctl reload sshd",
+        "evidence_sessions": [
+            "276ae548f10e4c928f70be8fedb7f83b",
+            "612aacc6047d434fa2a409af1a32452c",
+            "e4af5c7da3744bd9a1955fb6966ec4c8",
+            "ead16e439f6541bc9a742911eaf8656a"
+        ]
+    },
+    {
+        "id": "block-mining-port-3333",
+        "kind": "mining_port_drop",
+        "title": "Block outbound mining port 3333",
+        "description": "Specimens tried to reach a cryptocurrency mining pool on this port. Blocking outbound traffic to it stops a miner from working.",
+        "content": "# Drop outbound TCP traffic to port 3333\niptables -A OUTPUT -p tcp --dport 3333 -j DROP",
+        "evidence_sessions": [
+            "612aacc6047d434fa2a409af1a32452c"
+        ]
+    }
+]

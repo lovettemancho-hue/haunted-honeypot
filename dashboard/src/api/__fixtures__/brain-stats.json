@@ -1,0 +1,31 @@
+{
+    "attempts": 4,
+    "unique_ips": 1,
+    "captured": 4,
+    "longest_session_seconds": 5,
+    "threat_level": 8,
+    "top_passwords": [
+        {
+            "password": "admin",
+            "count": 2
+        },
+        {
+            "password": "123456",
+            "count": 1
+        },
+        {
+            "password": "ubuntu",
+            "count": 1
+        }
+    ],
+    "technique_counts": {
+        "T1053.003": 1,
+        "T1059.004": 3,
+        "T1070.004": 1,
+        "T1078": 4,
+        "T1082": 2,
+        "T1098.004": 1,
+        "T1105": 2,
+        "T1496": 1
+    }
+}
