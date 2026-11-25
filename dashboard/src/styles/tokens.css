@@ -1,0 +1,50 @@
+/* Design tokens: Frankenstein Lab Cam (see .kiro/steering/design.md) */
+:root {
+  /* Colour */
+  --bg: #0c110a;
+  --bg-deep: #080c07;
+  --panel: #151c12;
+  --panel-inset: #111710;
+  --terminal: #060904;
+  --border: #2e3b27;
+  --border-soft: #222c1d;
+  --seam: #4e5e44;
+  --text: #eaf2e3;
+  --text-terminal: #d4e0cb;
+  --muted: #a7b59c;
+  --volt: #a6ff3d;
+  --volt-dim: #6fa52f;
+  --on-volt: #0c1405;
+  --copper: #c97b3a;
+  --rec: #ff3b30;
+
+  /* Typography */
+  --font-title: "Creepster", "Chakra Petch", system-ui, sans-serif;
+  --font-ui: "Chakra Petch", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Share Tech Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.5rem;
+  --fs-title: 2.5rem;
+  --ls-label: 1.5px;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* Layout */
+  --touch-min: 44px;
+  --border-width: 1px;
+  --seam-width: 2px;
+  --bolt-size: 10px;
+  --bolt-inset: 9px;
+  --bp-mobile: 640px; /* documentation only: custom properties cannot be used in media queries */
+}

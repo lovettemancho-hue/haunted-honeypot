@@ -117,10 +117,66 @@ services:
     networks:
       - brain_net
 
+  # -------------------------------------------------------------------------
+  # dashboard — static build output of the React app (no published ports)
+  # -------------------------------------------------------------------------
+  dashboard:
+    build:
+      context: ../dashboard
+      dockerfile: Dockerfile
+    image: haunted-dashboard:latest
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    # Docker copies the image's /srv into this empty named volume on first
+    # creation; caddy mounts the same volume read-only. After rebuilding the
+    # dashboard image, run `docker compose down` and
+    # `docker volume rm <project>_dashboard_dist` to publish the new build.
+    volumes:
+      - dashboard_dist:/srv
+    networks:
+      - web_net
+
+  # -------------------------------------------------------------------------
+  # caddy — HTTPS reverse proxy and static file server (only public web entry)
+  # -------------------------------------------------------------------------
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      # Empty or unset DOMAIN makes the Caddyfile fall back to plain HTTP on :80.
+      DOMAIN: "${DOMAIN:-}"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - dashboard_dist:/srv:ro
+      # Certificates and ACME account data survive restarts.
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - dashboard
+    # web_net for the dashboard side, brain_net to reach brain:8000.
+    # The trap is on neither network.
+    networks:
+      - web_net
+      - brain_net
+
 # ---------------------------------------------------------------------------
 # Named volumes
 # ---------------------------------------------------------------------------
 volumes:
+  # Built dashboard files, shared between dashboard (rw) and caddy (ro).
+  dashboard_dist:
+    driver: local
+  # Caddy certificate and ACME data.
+  caddy_data:
+    driver: local
+  caddy_config:
+    driver: local
   trap_keys:
     driver: local
   trap_logs:
@@ -137,4 +193,7 @@ networks:
     driver: bridge
   # Brain-side network; the trap service is NOT attached.
   brain_net:
+    driver: bridge
+  # Dashboard-side network; the trap service is NOT attached.
+  web_net:
     driver: bridge

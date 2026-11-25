@@ -28,6 +28,29 @@ def validate_ip(value: str) -> str | None:
     return value
 
 
+def is_blockable_ip(value: str) -> bool:
+    """Return True only for a valid, globally routable IP literal.
+
+    Loopback, private, link-local, reserved, multicast, unspecified and other
+    non-global addresses (including IPv4-mapped forms of them) are never blockable,
+    so a generated rule cannot cut off the operator's own network.
+    """
+    if validate_ip(value) is None:
+        return False
+    addr = ipaddress.ip_address(value)
+    if isinstance(addr, ipaddress.IPv6Address) and addr.ipv4_mapped is not None:
+        addr = addr.ipv4_mapped
+    return not (
+        addr.is_loopback
+        or addr.is_private
+        or addr.is_link_local
+        or addr.is_reserved
+        or addr.is_multicast
+        or addr.is_unspecified
+        or not addr.is_global
+    )
+
+
 def validate_port(value: int | str) -> int | None:
     """Return the port as an int if it is an integer in [1, 65535], else None.
 

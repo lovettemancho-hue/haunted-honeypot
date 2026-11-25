@@ -15,7 +15,7 @@ from brain.containment.rules import (
     build_rules,
 )
 from brain.containment.script import render_script
-from brain.containment.validate import validate_ip, validate_port
+from brain.containment.validate import is_blockable_ip, validate_ip, validate_port
 from brain.models import Severity
 
 _PAYLOADS = [
@@ -30,7 +30,16 @@ _PAYLOADS = [
 ]
 
 _ip_text = st.one_of(
-    st.sampled_from(["203.0.113.5", "198.51.100.1", "2001:db8::1", *_PAYLOADS]),
+    st.sampled_from(
+        [
+            "45.33.32.156",
+            "93.184.216.34",
+            "2606:4700:4700::1111",
+            "127.0.0.1",
+            "10.0.0.1",
+            *_PAYLOADS,
+        ]
+    ),
     st.ip_addresses().map(str),
     st.text(max_size=30),
 )
@@ -90,7 +99,7 @@ def test_property_18_only_validated_values_reach_script(
     ip_ok = {
         s.src_ip
         for s in sessions
-        if s.severity in (Severity.CLASS_3, Severity.CLASS_5) and validate_ip(s.src_ip)
+        if s.severity in (Severity.CLASS_3, Severity.CLASS_5) and is_blockable_ip(s.src_ip)
     }
     assert set(_IP_LINE.findall(script)) == ip_ok
 
@@ -171,7 +180,7 @@ def test_property_19_titles_of_built_rules() -> None:
     **Validates: Requirements 7.8**
     """
     sessions = [
-        SessionForContainment("a", "203.0.113.5", Severity.CLASS_5, True, 3, frozenset({3333})),
+        SessionForContainment("a", "45.33.32.156", Severity.CLASS_5, True, 3, frozenset({3333})),
     ]
     rules = build_rules(sessions)
     script = render_script(rules)

@@ -1,0 +1,19 @@
+# Site address comes from the DOMAIN environment variable.
+# If DOMAIN is unset or empty, Caddy listens on :80 (plain HTTP).
+# If DOMAIN is a public host name, Caddy's automatic HTTPS obtains and
+# renews certificates (ports 80 and 443 must be reachable).
+{$DOMAIN::80} {
+	encode zstd gzip
+
+	# API: forward everything under /api to the Brain container.
+	handle /api/* {
+		reverse_proxy brain:8000
+	}
+
+	# Dashboard: serve static files, fall back to index.html for SPA routes.
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		file_server
+	}
+}

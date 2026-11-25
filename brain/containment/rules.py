@@ -10,7 +10,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 
 from brain.analysis.attack_map import MINING_PORTS
-from brain.containment.validate import validate_ip, validate_port
+from brain.containment.validate import is_blockable_ip, validate_port
 from brain.models import Severity
 
 KIND_SSHD = "sshd_hardening"
@@ -113,8 +113,8 @@ def _ip_rules(sessions: list[SessionForContainment]) -> list[ContainmentRule]:
     for s in sessions:
         if s.severity not in (Severity.CLASS_3, Severity.CLASS_5):
             continue
-        ip = validate_ip(s.src_ip)
-        if ip is None:
+        ip = s.src_ip
+        if not is_blockable_ip(ip):
             continue
         by_ip.setdefault(ip, []).append(s.session_id)
     rules: list[ContainmentRule] = []

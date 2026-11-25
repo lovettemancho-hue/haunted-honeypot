@@ -1,0 +1,86 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 360px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 var(--space-3);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Creepster is for H1 page titles only. */
+h1 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: var(--fs-title);
+  color: var(--volt);
+  letter-spacing: 1px;
+}
+
+h2,
+h3,
+h4 {
+  font-family: var(--font-ui);
+  font-size: var(--fs-md);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--volt);
+}
+
+p {
+  margin: 0 0 var(--space-3);
+}
+
+a {
+  color: var(--volt);
+  text-underline-offset: 3px;
+}
+
+code,
+kbd,
+pre,
+samp,
+.mono {
+  font-family: var(--font-mono);
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--volt);
+  outline-offset: 2px;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: 2rem;
+  }
+}

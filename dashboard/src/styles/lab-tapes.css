@@ -1,0 +1,104 @@
+.lab-tapes__layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 2fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+.tape-list__items,
+.tape-events,
+.tape-techniques,
+.tape-iocs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tape-techniques {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.tape-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  width: 100%;
+  min-height: var(--touch-min);
+  padding: var(--space-2) var(--space-3);
+  background: var(--panel);
+  color: var(--text);
+  border: var(--border-width) solid var(--border);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.tape-row[aria-current="true"] {
+  border-color: var(--volt);
+}
+.tape-row:hover {
+  background: var(--panel-inset);
+}
+.tape-row__time {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+.tape-technique {
+  min-height: var(--touch-min);
+  cursor: pointer;
+}
+.tape-meta {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+}
+.tape-meta dt {
+  color: var(--muted);
+}
+.tape-meta dd {
+  margin: 0;
+}
+.tape-event {
+  padding: var(--space-2) var(--space-3);
+  border-left: var(--seam-width) solid var(--border);
+  margin-bottom: var(--space-2);
+}
+.tape-event--highlight {
+  border-left-color: var(--volt);
+  background: var(--panel-inset);
+  outline: var(--border-width) solid var(--volt);
+}
+.tape-event__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+.tape-event__payload {
+  margin: var(--space-1) 0 0;
+  padding: var(--space-2);
+  background: var(--terminal);
+  color: var(--text-terminal);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.tape-back {
+  display: none;
+  margin-bottom: var(--space-3);
+}
+
+@media (max-width: 640px) {
+  .lab-tapes__layout {
+    grid-template-columns: 1fr;
+  }
+  .lab-tapes--selected .lab-tapes__list {
+    display: none;
+  }
+  .lab-tapes:not(.lab-tapes--selected) .lab-tapes__replay {
+    display: none;
+  }
+  .tape-back {
+    display: inline-flex;
+  }
+}
