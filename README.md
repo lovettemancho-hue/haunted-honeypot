@@ -17,6 +17,21 @@ Any server on the internet is attacked by bots within minutes. Small organisatio
 | **The Brain** | Writes plain-English field notes, maps behaviour to MITRE ATT&CK, enriches IPs with threat intel. |
 | **The Dashboard** | Lab Monitor, Lab Tapes (session replay) and Containment (generated hardening rules), in a "Frankenstein Lab Cam" theme. |
 
+## Screenshots
+
+**Live on the internet** — within an hour of going live, real bots from 9 different addresses tried 34 logins:
+
+![Lab Monitor with live attack data](docs/screenshots/live-lab-monitor.png)
+
+| | |
+|---|---|
+| ![Login](docs/screenshots/login.png) | ![Lab Monitor](docs/screenshots/lab-monitor.png) |
+| **Login** — the lab is locked behind an API token | **Lab Monitor** — lab voltage (threat level), stats, ATT&CK techniques, top passwords |
+| ![Lab Tapes](docs/screenshots/lab-tapes.png) | ![Tape replay](docs/screenshots/tape-replay.png) |
+| **Lab Tapes** — every recorded session with its severity class and techniques | **Tape replay** — the attacker's keystrokes as a terminal, the lab note and defanged IOCs |
+| ![Containment](docs/screenshots/containment.png) | ![Phone view](docs/screenshots/phone.png) |
+| **Containment** — hardening checklist and generated rules, downloadable as a script | **Phone** — the whole dashboard works on mobile |
+
 ## Quick start
 _Coming soon:_ `docker compose up -d`
 
