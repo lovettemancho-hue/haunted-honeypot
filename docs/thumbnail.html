@@ -1,0 +1,30 @@
+<!doctype html><html><head><style>
+@font-face{font-family:Creepster;src:url(creepster-latin-400-normal.woff2)}
+@font-face{font-family:Mono;src:url(share-tech-mono-latin-400-normal.woff2)}
+@font-face{font-family:Chakra;font-weight:600;src:url(chakra-petch-latin-600-normal.woff2)}
+*{margin:0;box-sizing:border-box}
+body{width:1500px;height:1000px;background:radial-gradient(ellipse at 50% 40%,#18240f 0%,#0C110A 70%);color:#A7B59C;font-family:Chakra;position:relative;overflow:hidden}
+body:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 4px);pointer-events:none}
+.top{position:absolute;top:50px;left:70px;right:70px;display:flex;justify-content:space-between;font-family:Mono;font-size:30px;letter-spacing:2px}
+.rec{color:#A7B59C}.rec b{display:inline-block;width:20px;height:20px;border-radius:50%;background:#FF3B30;margin-right:14px;box-shadow:0 0 16px #FF3B30}
+.alive{background:#A6FF3D;color:#0C1405;padding:6px 18px;font-family:Chakra;font-weight:600}
+h1{position:absolute;top:170px;left:0;right:0;text-align:center;font-family:Creepster;font-weight:400;font-size:190px;line-height:1;color:#A6FF3D;text-shadow:0 0 40px rgba(166,255,61,.45)}
+.sub{position:absolute;top:400px;left:0;right:0;text-align:center;font-size:38px;color:#E6F0DC;letter-spacing:1px}
+.panel{position:absolute;top:500px;left:110px;width:1280px;height:400px;border:3px dashed #C97B3A;background:rgba(21,28,18,.92);padding:40px 50px;display:flex;gap:60px}
+.panel i{position:absolute;width:18px;height:18px;background:linear-gradient(135deg,#f0a86a,#8a4f20)}
+.term{flex:1.25;font-family:Mono;font-size:28px;line-height:1.55;color:#A7B59C}
+.p{color:#A6FF3D}.c{color:#E6F0DC}.ioc{color:#C97B3A}
+.volt{flex:.75}.volt h3{font-size:26px;color:#A6FF3D;letter-spacing:3px;margin-bottom:24px}
+.bars{display:flex;align-items:flex-end;gap:10px;height:150px}.bars div{flex:1}
+.tags{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px}.tags span{font-family:Mono;font-size:22px;border:2px solid #A6FF3D;color:#A6FF3D;padding:4px 10px}
+</style></head><body>
+<div class="top"><span class="rec"><b></b>REC · LAB 09</span><span class="alive">STATUS: IT'S ALIVE</span></div>
+<h1>HAUNTED HONEYPOT</h1>
+<div class="sub">Lure attackers in. Record every move. Turn it into defences.</div>
+<div class="panel">
+<i style="top:12px;left:12px"></i><i style="top:12px;right:12px"></i><i style="bottom:12px;left:12px"></i><i style="bottom:12px;right:12px"></i>
+<div class="term"><span class="p">[root@records-srv-09 ~]#</span> <span class="c">whoami</span><br>root<br><span class="p">[root@records-srv-09 ~]#</span> <span class="c">wget hxxp://…/xmrig</span><br><span class="ioc">⚠ T1105 ingress tool transfer</span><br><span class="p">[root@records-srv-09 ~]#</span> <span class="c">./xmrig</span><br>Segmentation fault (core dumped)</div>
+<div class="volt"><h3>LAB VOLTAGE 8/10</h3><div class="bars">
+<div style="height:25%;background:#2a3a20"></div><div style="height:32%;background:#2a3a20"></div><div style="height:40%;background:#2a3a20"></div><div style="height:50%;background:#6aa82e"></div><div style="height:60%;background:#6aa82e"></div><div style="height:70%;background:#6aa82e"></div><div style="height:80%;background:#6aa82e"></div><div style="height:92%;background:#A6FF3D;box-shadow:0 0 20px #A6FF3D"></div><div style="height:96%;border:2px dashed #2a3a20"></div><div style="height:100%;border:2px dashed #2a3a20"></div></div>
+<div class="tags"><span>T1110</span><span>T1078</span><span>T1082</span><span>T1105</span><span>T1496</span></div></div>
+</div></body></html>
