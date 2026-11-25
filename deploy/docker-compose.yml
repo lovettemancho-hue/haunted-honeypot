@@ -149,8 +149,9 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      # Empty or unset DOMAIN makes the Caddyfile fall back to plain HTTP on :80.
-      DOMAIN: "${DOMAIN:-}"
+      # Empty or unset DOMAIN becomes ":80" (plain HTTP). Caddy treats an EMPTY
+      # value as a global-options block and crashes, so never pass "".
+      DOMAIN: "${DOMAIN:-:80}"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - dashboard_dist:/srv:ro
