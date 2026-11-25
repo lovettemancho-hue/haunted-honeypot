@@ -44,10 +44,11 @@ services:
       - trap_keys:/data/keys
       - trap_logs:/data/logs
 
-    # Port mapping: host port 2222 → container port 2222.
-    # (The host firewall should redirect port 22 → 2222.)
+    # Port mapping: the public SSH port 22 goes straight to the trap.
+    # The real admin sshd listens on a separate hidden port (see docs), so
+    # port 22 is free on the host. Docker's DNAT keeps the attacker's real IP.
     ports:
-      - "2222:2222"
+      - "${TRAP_PUBLIC_PORT:-22}:2222"
 
     # All secrets and tunable parameters come from a .env file.
     # Copy .env.example → .env and fill in values before first run.
@@ -62,7 +63,9 @@ services:
       TRAP_CREDENTIAL_FILE: "/app/trap/credentials_default.txt"
       TRAP_IDLE_TIMEOUT_SECONDS: "300"
       TRAP_MAX_SESSION_SECONDS: "1800"
-      TRAP_LLM_BACKEND: "scripted"
+      # TRAP_LLM_BACKEND is deliberately NOT set here: values in this block
+      # override env_file, so it would silently ignore the .env choice.
+      # The trap defaults to "scripted" when .env does not set it.
       # TRAP_LLM_API_URL and TRAP_LLM_API_KEY are set in .env only.
       # TRAP_ACCEPT_AFTER_ATTEMPTS is optional; leave unset to disable.
 
