@@ -1,4 +1,4 @@
-﻿import { useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { fetchStats } from "../api/stats";
 import { ApiError } from "../api/client";
 import { useAuth } from "../auth/AuthContext";
@@ -33,7 +33,7 @@ export function LoginScreen() {
 
   return (
     <main className="page login-page">
-      <form className="panel panel--bolted login-form" onSubmit={onSubmit} noValidate>
+      <form className="panel login-form" onSubmit={onSubmit} noValidate>
         <h1>Haunted Honeypot</h1>
         <p>Sign in to the lab with your API token to view captured attacker activity.</p>
         <label htmlFor="api-token">API token</label>
@@ -55,7 +55,7 @@ export function LoginScreen() {
             {error}
           </p>
         ) : null}
-        <button type="submit" className="btn btn--primary login-submit" disabled={busy}>
+        <button type="submit" className={`btn login-submit${busy ? " is-thrown" : ""}`} disabled={busy}>
           {busy ? "Checking…" : "Enter the lab"}
         </button>
       </form>

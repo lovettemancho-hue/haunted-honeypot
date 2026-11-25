@@ -56,9 +56,9 @@ function SessionRow({ session, nowMs }: { session: SessionListItem; nowMs: numbe
           <AttackerText value={session.src_ip} />
         </a>
       </td>
-      <td>{session.username ? <AttackerText value={session.username} /> : <span>—</span>}</td>
+      <td>{session.username ? <AttackerText value={session.username} /> : <span>â€”</span>}</td>
       <td>
-        <SeverityChip severity={session.severity} />
+        <SeverityChip severity={session.severity} description={session.severity_description} />
       </td>
       <td className="mono">{formatDuration(sessionSeconds(session, nowMs))}</td>
       <td>
@@ -122,31 +122,31 @@ export function LabMonitor() {
       <p className="lab-monitor__intro">Live overview of attacks caught by the trap.</p>
       {connectionLost ? <ConnectionLostBanner /> : null}
 
-      <section className="panel panel--bolted" aria-labelledby="lm-voltage">
+      <section className="panel panel--stitched" aria-labelledby="lm-voltage">
         <h2 id="lm-voltage">Lab voltage</h2>
         {s ? (
           <VoltageMeter level={s.threat_level} />
         ) : (
-          <EmptyState title="Waiting for data">Reading the lab voltage…</EmptyState>
+          <EmptyState title="Waiting for data">Reading the lab voltageâ€¦</EmptyState>
         )}
       </section>
 
       <section className="lab-monitor__stats" aria-label="Key numbers">
         <div className="panel stat-card">
           <p className="stat-card__label">Login attempts</p>
-          <p className="stat-card__value mono">{s ? s.attempts : "—"}</p>
+          <p className="stat-card__value mono">{s ? s.attempts : "â€”"}</p>
         </div>
         <div className="panel stat-card">
           <p className="stat-card__label">Unique attacker IPs</p>
-          <p className="stat-card__value mono">{s ? s.unique_ips : "—"}</p>
+          <p className="stat-card__value mono">{s ? s.unique_ips : "â€”"}</p>
         </div>
         <div className="panel stat-card">
           <p className="stat-card__label">Captured sessions (Tapes)</p>
-          <p className="stat-card__value mono">{s ? s.captured : "—"}</p>
+          <p className="stat-card__value mono">{s ? s.captured : "â€”"}</p>
         </div>
         <div className="panel stat-card">
           <p className="stat-card__label">Longest session</p>
-          <p className="stat-card__value mono">{s ? formatDuration(s.longest_session_seconds) : "—"}</p>
+          <p className="stat-card__value mono">{s ? formatDuration(s.longest_session_seconds) : "â€”"}</p>
         </div>
       </section>
 
@@ -155,7 +155,7 @@ export function LabMonitor() {
         <p className="lab-monitor__hint">Recent attack sessions (Tapes). Select a row to replay it.</p>
         {sessionList.length === 0 ? (
           <EmptyState title="No experiments yet">
-            No attacker has connected yet. Sessions will appear here as they arrive.
+            <p className="quiet-line">The lab is quiet... for now.</p>No attacker has connected yet. Sessions will appear here as they arrive.
           </EmptyState>
         ) : (
           <div className="table-scroll">
@@ -228,7 +228,7 @@ export function LabMonitor() {
         </section>
       </div>
 
-      <section className="panel panel--bolted lab-monitor__callout" aria-labelledby="lm-contain">
+      <section className="panel panel--stitched lab-monitor__callout" aria-labelledby="lm-contain">
         <h2 id="lm-contain">Containment</h2>
         <p>Hardening rules are ready. They protect your real server from what the trap has seen.</p>
         <a className="btn btn--primary" href="#/containment">
@@ -238,3 +238,4 @@ export function LabMonitor() {
     </div>
   );
 }
+

@@ -102,7 +102,7 @@ export function Containment() {
       </p>
       {connectionLost ? <ConnectionLostBanner /> : null}
 
-      <section className="panel containment__section" aria-labelledby="checklist-heading">
+      <section className="panel panel--stitched containment__section" aria-labelledby="checklist-heading">
         <h2 id="checklist-heading">Hardening checklist</h2>
         <p className="containment__progress" aria-live="polite">
           {checked} of {CHECKLIST_ITEMS.length} steps done
@@ -131,7 +131,7 @@ export function Containment() {
         </ul>
       </section>
 
-      <section className="panel containment__section" aria-labelledby="rules-heading">
+      <section className="panel panel--stitched containment__section" aria-labelledby="rules-heading">
         <div className="containment__rules-head">
           <h2 id="rules-heading">Generated rules</h2>
           <button
@@ -187,7 +187,7 @@ export function Containment() {
         )}
       </section>
 
-      <section className="panel containment__section" aria-labelledby="specimens-heading">
+      <section className="panel panel--stitched containment__section" aria-labelledby="specimens-heading">
         <h2 id="specimens-heading">Contained specimens</h2>
         <p className="containment__intro">
           Specimens (attacker addresses) that the rules above are built from.

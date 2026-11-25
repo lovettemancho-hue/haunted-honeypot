@@ -89,24 +89,13 @@
   padding: var(--space-3);
 }
 
-.panel--bolted::before,
-.panel--bolted::after,
 .bolt {
-  content: "";
   position: absolute;
   width: var(--bolt-size);
   height: var(--bolt-size);
   background: var(--copper);
   border-radius: 50%;
   top: var(--bolt-inset);
-}
-
-.panel--bolted::before {
-  left: var(--bolt-inset);
-}
-
-.panel--bolted::after {
-  right: var(--bolt-inset);
 }
 
 .terminal {

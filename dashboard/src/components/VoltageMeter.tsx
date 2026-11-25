@@ -8,7 +8,7 @@ export function VoltageMeter({ level }: { level: number }) {
   return (
     <div className="voltage">
       <div
-        className="voltage-meter"
+        className={`voltage-meter${lit >= 8 ? " voltage-meter--surge" : ""}`}
         role="meter"
         aria-label="Lab voltage"
         aria-valuemin={0}
@@ -21,7 +21,7 @@ export function VoltageMeter({ level }: { level: number }) {
           return (
             <span
               key={i}
-              className={`voltage-segment voltage-segment--${tone}${i < lit ? " is-lit" : ""}`}
+              className={`voltage-segment voltage-segment--${tone}${i < lit ? " is-lit" : ""}${lit >= 8 && i === lit - 1 ? " is-top" : ""}`}
               data-lit={i < lit ? "true" : "false"}
               style={{ height: `${30 + i * 7}%` }}
             />

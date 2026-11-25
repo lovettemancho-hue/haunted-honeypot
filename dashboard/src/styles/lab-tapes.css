@@ -102,3 +102,9 @@
     display: inline-flex;
   }
 }
+
+.terminal-line { margin: var(--space-1) 0 0; }
+.terminal-line__prefix { color: var(--volt); }
+.terminal-line--dim, .terminal-line--dim .attacker-text { color: var(--muted); }
+.terminal-line--command .attacker-text { color: var(--text-terminal); font-weight: 700; }
+

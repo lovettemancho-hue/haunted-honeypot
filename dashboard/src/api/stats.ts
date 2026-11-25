@@ -1,6 +1,8 @@
+﻿import { normalizeStats } from "./adapter";
 import { fetchJson } from "./client";
 import type { StatsResponse } from "./types";
 
 export function fetchStats(token: string, onUnauthorized: () => void): Promise<StatsResponse> {
-  return fetchJson<StatsResponse>("/api/stats", token, onUnauthorized);
+  return fetchJson<unknown>("/api/stats", token, onUnauthorized).then(normalizeStats);
 }
+

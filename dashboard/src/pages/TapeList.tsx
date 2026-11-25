@@ -109,10 +109,10 @@ export function TapeList({ selectedId }: { selectedId: string | null }) {
                 <AttackerText value={s.src_ip} />
               </span>
               <span className="tape-row__user">
-                {s.username ? <AttackerText value={s.username} /> : "—"}
+                {s.username ? <AttackerText value={s.username} /> : "â€”"}
               </span>
               <span className="tape-row__time">{formatTimestamp(s.started_at)}</span>
-              <SeverityChip severity={s.severity} />
+              <SeverityChip severity={s.severity} description={s.severity_description} />
               <span className="tape-row__attacks">
                 {s.attack_ids.map((a) => (
                   <span key={a} className="tag tape-tag">
@@ -131,10 +131,11 @@ export function TapeList({ selectedId }: { selectedId: string | null }) {
               Load more tapes
             </button>
           ) : loadingMore ? (
-            <span role="status">Loading more tapes…</span>
+            <span role="status">Loading more tapesâ€¦</span>
           ) : null}
         </div>
       ) : null}
     </section>
   );
 }
+

@@ -1,0 +1,187 @@
+﻿/* Frankenstein Lab Cam polish: subtle, readable, decorative only. */
+
+/* ---- Camera-feed overlay: faint scanlines + soft vignette (pointer-events: none) ---- */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+body::before {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.14) 0,
+    rgba(0, 0, 0, 0.14) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.35;
+}
+body::after {
+  background-image: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+/* ---- Panels: copper rivets in all four corners ---- */
+.panel {
+  padding: calc(var(--space-4) + 6px);
+}
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: var(--bolt-size) var(--bolt-size);
+  background-image:
+    radial-gradient(circle at 35% 30%, #f0b27a 0 18%, var(--copper) 45%, #7a4416 100%),
+    radial-gradient(circle at 35% 30%, #f0b27a 0 18%, var(--copper) 45%, #7a4416 100%),
+    radial-gradient(circle at 35% 30%, #f0b27a 0 18%, var(--copper) 45%, #7a4416 100%),
+    radial-gradient(circle at 35% 30%, #f0b27a 0 18%, var(--copper) 45%, #7a4416 100%);
+  background-position:
+    left var(--bolt-inset) top var(--bolt-inset),
+    right var(--bolt-inset) top var(--bolt-inset),
+    left var(--bolt-inset) bottom var(--bolt-inset),
+    right var(--bolt-inset) bottom var(--bolt-inset);
+  border-radius: 0;
+}
+/* Rivet shape: the radial gradient is clipped to a circle by its own transparent edge. */
+.stat-card.panel {
+  padding: calc(var(--space-4) + 6px);
+}
+
+/* ---- Stitched copper seam (surgical stitches) on Lab Voltage and Containment ---- */
+.panel--stitched,
+.containment__section {
+  border: 2px dashed var(--copper);
+  outline: 1px solid var(--border);
+  outline-offset: -7px;
+}
+
+/* ---- Voltage surge: top bar flickers at level >= 8 ---- */
+.voltage-segment.is-top {
+  box-shadow: 0 0 6px var(--volt);
+}
+
+/* ---- Quiet empty state ---- */
+.quiet-line {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-mono);
+  color: var(--text-terminal);
+  letter-spacing: 1px;
+}
+
+/* ---- Login: centred card, faint Tesla bolt behind, lever-style submit ---- */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: var(--space-4);
+}
+.login-form {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+.login-bolt {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  height: min(90vh, 900px);
+  width: auto;
+  color: var(--volt);
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+.login-submit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-deep);
+  color: var(--volt);
+  border: 2px solid var(--copper);
+  letter-spacing: 3px;
+  padding-left: 56px;
+  padding-right: var(--space-4);
+}
+/* Lever knob: slides from OFF (left) to ON (right) */
+.login-submit::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  bottom: 6px;
+  width: 36px;
+  background: var(--copper);
+  border: 1px solid #7a4416;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.3);
+}
+.login-submit:hover:not(:disabled)::before,
+.login-submit:focus-visible::before,
+.login-submit.is-thrown::before {
+  left: calc(100% - 42px);
+  background: var(--volt);
+}
+.login-submit.is-thrown {
+  opacity: 1;
+}
+
+/* ---- Motion only when the user has not asked for reduced motion ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .rec-dot {
+    animation: rec-blink 2.4s ease-in-out infinite;
+  }
+  .login-submit::before {
+    transition: left 0.18s ease-out, background-color 0.18s;
+  }
+  .voltage-segment.is-top {
+    animation: surge-flicker 3.2s linear infinite;
+  }
+}
+@keyframes rec-blink {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  70%,
+  90% {
+    opacity: 0.15;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes surge-flicker {
+  0%,
+  72%,
+  100% {
+    opacity: 1;
+  }
+  74% {
+    opacity: 0.35;
+  }
+  76% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 0.55;
+  }
+  80% {
+    opacity: 1;
+  }
+  83% {
+    opacity: 0.25;
+  }
+  85% {
+    opacity: 1;
+  }
+}
+@media (max-width: 640px) {
+  .login-page {
+    padding: var(--space-3);
+  }
+}

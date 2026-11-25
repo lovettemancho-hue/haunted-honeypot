@@ -1,3 +1,4 @@
+﻿import { normalizeSessionDetail, normalizeSessionList } from "./adapter";
 import { fetchJson } from "./client";
 import type { SessionDetailResponse, SessionListResponse } from "./types";
 
@@ -7,7 +8,9 @@ export function fetchSessions(
   { limit, offset }: { limit: number; offset: number },
 ): Promise<SessionListResponse> {
   const query = new URLSearchParams({ limit: String(limit), offset: String(offset) });
-  return fetchJson<SessionListResponse>(`/api/sessions?${query.toString()}`, token, onUnauthorized);
+  return fetchJson<unknown>(`/api/sessions?${query.toString()}`, token, onUnauthorized).then(
+    normalizeSessionList,
+  );
 }
 
 export function fetchSessionDetail(
@@ -15,9 +18,7 @@ export function fetchSessionDetail(
   onUnauthorized: () => void,
   id: string,
 ): Promise<SessionDetailResponse> {
-  return fetchJson<SessionDetailResponse>(
-    `/api/sessions/${encodeURIComponent(id)}`,
-    token,
-    onUnauthorized,
+  return fetchJson<unknown>(`/api/sessions/${encodeURIComponent(id)}`, token, onUnauthorized).then(
+    normalizeSessionDetail,
   );
 }

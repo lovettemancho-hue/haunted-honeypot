@@ -1,4 +1,4 @@
-import { mapSeverity, severityChipVariant } from "../lib/severity";
+﻿import { mapSeverity, severityChipVariant } from "../lib/severity";
 
 const VARIANT_CLASS = {
   solid: "chip--class-5",
@@ -8,10 +8,14 @@ const VARIANT_CLASS = {
 } as const;
 
 /** Severity label: Class 5 solid volt, Class 3 volt outline, Class 1 muted outline. */
-export function SeverityChip({ severity }: { severity: string }) {
+export function SeverityChip({ severity, description }: { severity: string; description?: string }) {
   const variant = severityChipVariant(severity);
   return (
-    <span className={`chip ${VARIANT_CLASS[variant]}`} data-variant={variant}>
+    <span
+      className={`chip ${VARIANT_CLASS[variant]}`}
+      data-variant={variant}
+      title={description || undefined}
+    >
       {mapSeverity(severity)}
     </span>
   );

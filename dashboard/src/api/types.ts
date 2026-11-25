@@ -1,4 +1,4 @@
-export type ApiSeverity = "Class_1" | "Class_3" | "Class_5";
+﻿export type ApiSeverity = "Class_1" | "Class_3" | "Class_5";
 
 export interface StatsResponse {
   attempts: number;
@@ -20,6 +20,8 @@ export interface SessionListItem {
   severity: ApiSeverity;
   open: boolean;
   attack_ids: string[];
+  /** Plain-language explanation of the severity, from the Brain (tooltip text). */
+  severity_description?: string;
 }
 
 export type SessionListResponse = SessionListItem[];
@@ -28,6 +30,7 @@ export interface SessionEvent {
   id: number;
   timestamp: string;
   kind: string;
+  /** JSON text of the Brain's payload object (the adapter stringifies it). */
   payload: string;
   generated_by: "scripted" | "llm";
 }

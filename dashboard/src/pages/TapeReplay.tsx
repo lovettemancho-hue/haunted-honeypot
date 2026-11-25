@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+﻿import { useCallback, useRef, useState } from "react";
 import { ApiError } from "../api/client";
 import { fetchSessionDetail } from "../api/sessions";
 import type { SessionDetailResponse } from "../api/types";
@@ -10,7 +10,8 @@ import { SeverityChip } from "../components/SeverityChip";
 import { StitchedTag } from "../components/StitchedTag";
 import { usePoller } from "../hooks/usePoller";
 import { formatOffset } from "../lib/offset";
-import { decodePayload, isStitched, sortEventsWithOffsets } from "../lib/replay";
+import { isStitched, sortEventsWithOffsets } from "../lib/replay";
+import { terminalLine } from "../lib/terminal";
 import { formatTimestamp } from "../lib/timestamp";
 import { tapeHash } from "./TapeList";
 
@@ -24,12 +25,6 @@ function isNotFound(r: Result): r is NotFound {
   return (r as NotFound).notFound === true;
 }
 
-function payloadText(payload: string): string {
-  const { value, isJson } = decodePayload(payload);
-  if (!isJson) return payload;
-  if (typeof value === "string") return value;
-  return JSON.stringify(value, null, 2) ?? payload;
-}
 
 /** Back control: always visible on the 404 state; on wide screens only needed on mobile via CSS. */
 export function BackToTapes({ className }: { className?: string }) {
@@ -43,6 +38,16 @@ export function BackToTapes({ className }: { className?: string }) {
     >
       Back to tape list
     </button>
+  );
+}
+
+function TerminalLine({ kind, payload }: { kind: string; payload: string }) {
+  const line = terminalLine(kind, payload);
+  return (
+    <pre className={`tape-event__payload terminal-line terminal-line--${line.kind}${line.dim ? " terminal-line--dim" : ""}`}>
+      {line.prefix ? <span className="terminal-line__prefix">{line.prefix}</span> : null}
+      <AttackerText value={line.text} />
+    </pre>
   );
 }
 
@@ -75,7 +80,7 @@ export function TapeReplay({ id }: { id: string }) {
     return (
       <section className="tape-replay" aria-label="Tape replay">
         <BackToTapes className="tape-back" />
-        {connectionLost ? <ConnectionLostBanner /> : <p role="status">Loading tape…</p>}
+        {connectionLost ? <ConnectionLostBanner /> : <p role="status">Loading tapeâ€¦</p>}
       </section>
     );
   }
@@ -112,13 +117,13 @@ export function TapeReplay({ id }: { id: string }) {
           <dt>Port</dt>
           <dd>{data.src_port}</dd>
           <dt>Username</dt>
-          <dd>{data.username ? <AttackerText value={data.username} /> : "—"}</dd>
+          <dd>{data.username ? <AttackerText value={data.username} /> : "â€”"}</dd>
           <dt>Started</dt>
           <dd>{formatTimestamp(data.started_at)}</dd>
           <dt>Ended</dt>
           <dd>{data.open ? "Still recording" : formatTimestamp(data.ended_at)}</dd>
           <dt>Severity</dt>
-          <dd><SeverityChip severity={data.severity} /></dd>
+          <dd><SeverityChip severity={data.severity} description={data.severity_description} /></dd>
         </dl>
       </header>
 
@@ -174,9 +179,7 @@ export function TapeReplay({ id }: { id: string }) {
                   <span className="tape-event__kind">{ev.kind}</span>
                   {isStitched(ev) ? <StitchedTag /> : null}
                 </div>
-                <pre className="tape-event__payload">
-                  <AttackerText value={payloadText(ev.payload)} />
-                </pre>
+                <TerminalLine kind={ev.kind} payload={ev.payload} />
               </li>
             ))}
           </ol>
@@ -198,3 +201,5 @@ export function TapeReplay({ id }: { id: string }) {
     </section>
   );
 }
+
+
