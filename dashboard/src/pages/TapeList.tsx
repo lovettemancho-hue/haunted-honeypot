@@ -109,7 +109,7 @@ export function TapeList({ selectedId }: { selectedId: string | null }) {
                 <AttackerText value={s.src_ip} />
               </span>
               <span className="tape-row__user">
-                {s.username ? <AttackerText value={s.username} /> : "â€”"}
+                {s.username ? <AttackerText value={s.username} /> : "—"}
               </span>
               <span className="tape-row__time">{formatTimestamp(s.started_at)}</span>
               <SeverityChip severity={s.severity} description={s.severity_description} />
@@ -131,7 +131,7 @@ export function TapeList({ selectedId }: { selectedId: string | null }) {
               Load more tapes
             </button>
           ) : loadingMore ? (
-            <span role="status">Loading more tapesâ€¦</span>
+            <span role="status">Loading more tapes…</span>
           ) : null}
         </div>
       ) : null}

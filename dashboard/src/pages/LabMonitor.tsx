@@ -56,7 +56,7 @@ function SessionRow({ session, nowMs }: { session: SessionListItem; nowMs: numbe
           <AttackerText value={session.src_ip} />
         </a>
       </td>
-      <td>{session.username ? <AttackerText value={session.username} /> : <span>â€”</span>}</td>
+      <td>{session.username ? <AttackerText value={session.username} /> : <span>—</span>}</td>
       <td>
         <SeverityChip severity={session.severity} description={session.severity_description} />
       </td>
@@ -127,26 +127,26 @@ export function LabMonitor() {
         {s ? (
           <VoltageMeter level={s.threat_level} />
         ) : (
-          <EmptyState title="Waiting for data">Reading the lab voltageâ€¦</EmptyState>
+          <EmptyState title="Waiting for data">Reading the lab voltage…</EmptyState>
         )}
       </section>
 
       <section className="lab-monitor__stats" aria-label="Key numbers">
         <div className="panel stat-card">
           <p className="stat-card__label">Login attempts</p>
-          <p className="stat-card__value mono">{s ? s.attempts : "â€”"}</p>
+          <p className="stat-card__value mono">{s ? s.attempts : "—"}</p>
         </div>
         <div className="panel stat-card">
           <p className="stat-card__label">Unique attacker IPs</p>
-          <p className="stat-card__value mono">{s ? s.unique_ips : "â€”"}</p>
+          <p className="stat-card__value mono">{s ? s.unique_ips : "—"}</p>
         </div>
         <div className="panel stat-card">
-          <p className="stat-card__label">Captured sessions (Tapes)</p>
-          <p className="stat-card__value mono">{s ? s.captured : "â€”"}</p>
+          <p className="stat-card__label">Break-ins (got past login)</p>
+          <p className="stat-card__value mono">{s ? s.captured : "—"}</p>
         </div>
         <div className="panel stat-card">
           <p className="stat-card__label">Longest session</p>
-          <p className="stat-card__value mono">{s ? formatDuration(s.longest_session_seconds) : "â€”"}</p>
+          <p className="stat-card__value mono">{s ? formatDuration(s.longest_session_seconds) : "—"}</p>
         </div>
       </section>
 

@@ -80,7 +80,7 @@ export function TapeReplay({ id }: { id: string }) {
     return (
       <section className="tape-replay" aria-label="Tape replay">
         <BackToTapes className="tape-back" />
-        {connectionLost ? <ConnectionLostBanner /> : <p role="status">Loading tapeâ€¦</p>}
+        {connectionLost ? <ConnectionLostBanner /> : <p role="status">Loading tape…</p>}
       </section>
     );
   }
@@ -117,7 +117,7 @@ export function TapeReplay({ id }: { id: string }) {
           <dt>Port</dt>
           <dd>{data.src_port}</dd>
           <dt>Username</dt>
-          <dd>{data.username ? <AttackerText value={data.username} /> : "â€”"}</dd>
+          <dd>{data.username ? <AttackerText value={data.username} /> : "—"}</dd>
           <dt>Started</dt>
           <dd>{formatTimestamp(data.started_at)}</dd>
           <dt>Ended</dt>

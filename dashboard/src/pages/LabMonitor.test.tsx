@@ -59,7 +59,7 @@ describe("LabMonitor", () => {
     renderPage(<LabMonitor />);
     await waitFor(() => expect(cardValue("Login attempts")).toContain("1234"));
     expect(cardValue("Unique attacker IPs")).toContain("56");
-    expect(cardValue("Captured sessions (Tapes)")).toContain("7");
+    expect(cardValue("Break-ins (got past login)")).toContain("7");
     expect(cardValue("Longest session")).toContain("01:02:05");
   });
 
