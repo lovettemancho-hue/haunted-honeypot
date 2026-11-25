@@ -36,3 +36,8 @@ docs/        # write-up, screenshots, architecture notes
 - `Session`: id, src_ip, src_port, started_at, ended_at, username, password, client_version, severity.
 - `Event`: id, session_id, timestamp, kind (`login_attempt` | `command` | `response` | `download_attempt`), payload, generated_by (`scripted` | `llm`).
 - `Technique`: session_id, attack_id (e.g. `T1110`), name, evidence_event_id.
+
+## File editing on Windows
+- Source files are UTF-8 (no BOM) with LF line endings.
+- Edit files with the editor's file tools, never with PowerShell `Set-Content`, `Out-File`, `-replace` or byte-level scripts: they have corrupted `main.tsx` (NUL bytes) and turned `—` into `â€”` in this repo before.
+- After any bulk edit, run `git diff --stat`; a text file shown as `Bin` means it was corrupted.
