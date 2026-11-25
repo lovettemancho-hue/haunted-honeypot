@@ -52,10 +52,10 @@ def build_prompt(username: str, cwd: str) -> str:
     home = home_dir(username)
     if cwd == home:
         display = "~"
-    elif cwd.startswith(home + "/"):
-        display = "~" + cwd[len(home) :]
+    elif cwd == "/":
+        display = "/"
     else:
-        display = cwd
+        display = cwd.rstrip("/").rsplit("/", 1)[-1] or "/"
     sigil = "#" if username == "root" else "$"
     return f"[{username}@{HOSTNAME} {display}]{sigil} "
 

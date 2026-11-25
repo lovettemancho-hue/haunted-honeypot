@@ -25,7 +25,7 @@ from trap.auth.tracker import AttemptTracker
 from trap.config import Config
 from trap.ghost.dispatcher import Dispatcher, build_default_dispatcher
 from trap.ghost.filesystem import FakeFilesystem, FakeNode, load_template
-from trap.ghost.llm import ScriptedFallback
+from trap.ghost.llm import GeminiBackend, LLMInterface, ScriptedFallback
 from trap.ghost.logger import EventLogger
 from trap.models import Event, GeneratedBy, Session, SessionEndReason
 
@@ -65,6 +65,7 @@ class _Shared:
     tracker: AttemptTracker
     template: FakeNode
     shell_handler: ShellHandler | None  # None -> resolve default lazily
+    llm: LLMInterface
     servers: dict[object, TrapServer] = field(default_factory=dict)
 
 
@@ -252,13 +253,15 @@ class TrapServer(asyncssh.SSHServer):
             started_at=self._started_at,
         )
         fs = FakeFilesystem(shared.template)
-        dispatcher = build_default_dispatcher(ScriptedFallback())
+        dispatcher = build_default_dispatcher(shared.llm)
         try:
             handler = shared.shell_handler or default_shell_handler()
             await handler(process, shared.config, session, fs, dispatcher, logger)
         except Exception:
             _log.exception("session %s: shell crashed", self._session_id)
         finally:
+            if isinstance(shared.llm, GeminiBackend):
+                shared.llm.end_session(self._session_id)
             with contextlib.suppress(OSError):
                 await logger.close()
             process.exit(0)
@@ -284,10 +287,31 @@ async def _process_factory_for(shared: _Shared, process: asyncssh.SSHServerProce
     await server.handle_process(process)
 
 
+def build_llm_backend(config: Config) -> LLMInterface:
+    """Build the single LLM backend shared by all sessions."""
+    if config.llm_backend == "gemini":
+        return GeminiBackend(
+            api_key=config.llm_api_key,
+            model=config.llm_model,
+            daily_limit=config.llm_daily_limit,
+        )
+    return ScriptedFallback()
+
+
+# Smallest-diff choice (design 5): ``create_trap_server`` keeps returning just the
+# acceptor so existing call sites work; ``_create_server`` also returns ``shared``
+# so ``start_server`` can close the shared backend.
 async def create_trap_server(
     config: Config, shell_handler: ShellHandler | None = None
 ) -> asyncssh.SSHAcceptor:
     """Create the listening server without blocking (used by tests)."""
+    acceptor, _ = await _create_server(config, shell_handler)
+    return acceptor
+
+
+async def _create_server(
+    config: Config, shell_handler: ShellHandler | None = None
+) -> tuple[asyncssh.SSHAcceptor, _Shared]:
     creds = frozenset(parse_credentials(config.credential_file.read_text(encoding="utf-8")))
     max_per_ip = (
         config.accept_after_attempts + 1
@@ -300,9 +324,10 @@ async def create_trap_server(
         tracker=AttemptTracker(max_attempts_per_ip=max_per_ip),
         template=load_template(_TEMPLATE_PATH),
         shell_handler=shell_handler,
+        llm=build_llm_backend(config),
     )
     host_key = _load_host_key(config.host_key_path)
-    return await asyncssh.create_server(
+    acceptor = await asyncssh.create_server(
         lambda: TrapServer(shared),
         "",
         config.trap_port,
@@ -310,13 +335,16 @@ async def create_trap_server(
         server_host_keys=[host_key],
         # Password auth only; everything else stays at asyncssh's defaults (off).
     )
+    return acceptor, shared
 
 
 async def start_server(config: Config, shell_handler: ShellHandler | None = None) -> None:
     """Start the Trap and serve until cancelled."""
-    acceptor = await create_trap_server(config, shell_handler)
+    acceptor, shared = await _create_server(config, shell_handler)
     _log.info("trap listening on port %d", config.trap_port)
     try:
         await acceptor.wait_closed()
     finally:
         acceptor.close()
+        if isinstance(shared.llm, GeminiBackend):
+            await shared.llm.aclose()

@@ -1,0 +1,9 @@
+{"session_id": "sess-class3", "timestamp": "2025-01-10T09:00:00Z", "kind": "session_start", "payload": {"src_ip": "198.51.100.7", "src_port": 40002, "client_version": "SSH-2.0-OpenSSH_8.9"}, "generated_by": "scripted"}
+{"session_id": "sess-class3", "timestamp": "2025-01-10T09:00:01Z", "kind": "login_attempt", "payload": {"src_ip": "198.51.100.7", "src_port": 40002, "username": "root", "password": "password", "client_version": "SSH-2.0-OpenSSH_8.9", "success": true}, "generated_by": "scripted"}
+{"session_id": "sess-class3", "timestamp": "2025-01-10T09:00:05Z", "kind": "command", "payload": {"command": "whoami"}, "generated_by": "scripted"}
+{"session_id": "sess-class3", "timestamp": "2025-01-10T09:00:05Z", "kind": "response", "payload": {"output": "root\n"}, "generated_by": "scripted"}
+{"session_id": "sess-class3", "timestamp": "2025-01-10T09:00:08Z", "kind": "command", "payload": {"command": "uname -a"}, "generated_by": "scripted"}
+{"session_id": "sess-class3", "timestamp": "2025-01-10T09:00:08Z", "kind": "response", "payload": {"output": "Linux ghost 5.15.0-91-generic x86_64 GNU/Linux\n"}, "generated_by": "scripted"}
+{"session_id": "sess-class3", "timestamp": "2025-01-10T09:00:12Z", "kind": "command", "payload": {"command": "ls /etc"}, "generated_by": "scripted"}
+{"session_id": "sess-class3", "timestamp": "2025-01-10T09:00:12Z", "kind": "response", "payload": {"output": "hostname\npasswd\nssh\n"}, "generated_by": "scripted"}
+{"session_id": "sess-class3", "timestamp": "2025-01-10T09:00:20Z", "kind": "session_end", "payload": {"reason": "client_disconnect"}, "generated_by": "scripted"}

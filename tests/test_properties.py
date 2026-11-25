@@ -33,7 +33,7 @@ from trap.ghost.commands.exit_ import SessionExitRequested
 from trap.ghost.commands.info import echo
 from trap.ghost.dispatcher import CommandResult, Dispatcher, build_default_dispatcher
 from trap.ghost.filesystem import FakeFilesystem, FakeNode, load_template
-from trap.ghost.llm import LLMInterface, ScriptedFallback
+from trap.ghost.llm import LLMInterface, LLMReply, ScriptedFallback
 from trap.ghost.logger import EventLogger
 from trap.ghost.shell import LINE_TOO_LONG, build_prompt, run_shell
 from trap.models import Event, Session, SessionContext
@@ -281,6 +281,7 @@ def _shared(
         tracker=AttemptTracker(max_attempts_per_ip=(accept_after or 100) + 1),
         template=root,
         shell_handler=None,
+        llm=ScriptedFallback(),
     )
 
 
@@ -564,16 +565,23 @@ def _expected_prompt(username: str, cwd: str) -> str:
     home = "/root" if username == "root" else f"/home/{username}"
     if cwd == home:
         display = "~"
-    elif cwd.startswith(home + "/"):
-        display = "~" + cwd[len(home) :]
+    elif cwd == "/":
+        display = "/"
     else:
-        display = cwd
+        display = cwd.rstrip("/").split("/")[-1]
     sigil = "#" if username == "root" else "$"
     return f"[{username}@records-srv-09 {display}]{sigil}"
 
 
+def test_prompt_basename_examples() -> None:
+    assert build_prompt("root", "/tmp") == "[root@records-srv-09 tmp]# "
+    assert build_prompt("root", "/root") == "[root@records-srv-09 ~]# "
+    assert build_prompt("root", "/") == "[root@records-srv-09 /]# "
+    assert build_prompt("bob", "/home/bob/a/b") == "[bob@records-srv-09 b]$ "
+
+
 # Feature: trap-core, Property 11: Prompt format correctness
-# **Validates: Requirements 4.3**
+# **Validates: Requirements 4.3** (ghost-llm: 6.4, 9.9 — basename display)
 @settings(max_examples=100)
 @given(
     username=_prompt_usernames,
@@ -607,7 +615,8 @@ _commands = st.text(max_size=200).filter(lambda s: bool(s.split()))
 @given(command=_commands)
 def test_property_13_scripted_fallback_format(command: str) -> None:
     result = asyncio.run(ScriptedFallback().respond(_bare_ctx(), command))
-    assert result == f"bash: {command.split()[0]}: command not found"
+    assert result.text == f"bash: {command.split()[0]}: command not found"
+    assert result.source == "scripted"
 
 
 # Feature: trap-core, Property 14: LLM exception fallback — session stays open
@@ -632,7 +641,7 @@ _cmd_names = st.from_regex(r"zz[a-z0-9]{1,10}", fullmatch=True)
 @given(exc=_exceptions, name=_cmd_names)
 def test_property_14_llm_exception_fallback(exc: Exception, name: str) -> None:
     class _Raising(LLMInterface):
-        async def respond(self, session_context: SessionContext, command: str) -> str:
+        async def respond(self, session_context: SessionContext, command: str) -> LLMReply:
             raise exc
 
     dispatcher = Dispatcher(_Raising())

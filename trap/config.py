@@ -9,6 +9,7 @@ from collections.abc import Mapping
 from pathlib import Path
 
 MAX_INPUT_LINE: int = 4096
+_LLM_BACKENDS: frozenset[str] = frozenset({"scripted", "gemini"})
 
 
 class ConfigError(Exception):
@@ -27,6 +28,9 @@ class Config:
     accept_after_attempts: int | None  # TRAP_ACCEPT_AFTER_ATTEMPTS, optional
     llm_backend: str  # TRAP_LLM_BACKEND, default "scripted"
     llm_api_url: str | None  # TRAP_LLM_API_URL, optional
+    llm_api_key: str = dataclasses.field(default="", repr=False)  # TRAP_LLM_API_KEY
+    llm_model: str = ""  # TRAP_LLM_MODEL, required for gemini
+    llm_daily_limit: int = 500  # TRAP_LLM_DAILY_LIMIT, default 500
 
 
 def _parse_int(name: str, raw: str) -> int:
@@ -80,6 +84,18 @@ def _build_config(env: Mapping[str, str]) -> Config:
 
     llm_backend = _optional(env, "TRAP_LLM_BACKEND") or "scripted"
     llm_api_url = _optional(env, "TRAP_LLM_API_URL")
+    if llm_backend not in _LLM_BACKENDS:
+        raise ConfigError("TRAP_LLM_BACKEND must be one of: scripted, gemini")
+    llm_api_key = env.get("TRAP_LLM_API_KEY", "").strip()
+    llm_model = env.get("TRAP_LLM_MODEL", "").strip()
+    llm_daily_limit = _positive_int(
+        "TRAP_LLM_DAILY_LIMIT", env.get("TRAP_LLM_DAILY_LIMIT", "500")
+    )
+    if llm_backend == "gemini":
+        if not llm_api_key:
+            raise ConfigError("TRAP_LLM_API_KEY is required when TRAP_LLM_BACKEND is gemini")
+        if not llm_model:
+            raise ConfigError("TRAP_LLM_MODEL is required when TRAP_LLM_BACKEND is gemini")
 
     # Host key directory must be writable (the key may be generated there).
     key_parent = host_key_path.parent
@@ -111,6 +127,9 @@ def _build_config(env: Mapping[str, str]) -> Config:
         accept_after_attempts=accept_after,
         llm_backend=llm_backend,
         llm_api_url=llm_api_url,
+        llm_api_key=llm_api_key,
+        llm_model=llm_model,
+        llm_daily_limit=llm_daily_limit,
     )
 
 

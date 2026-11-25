@@ -72,6 +72,48 @@ services:
     networks:
       - trap_net
 
+  # -------------------------------------------------------------------------
+  # brain — API, analyzer and note generator (The Brain)
+  # -------------------------------------------------------------------------
+  brain:
+    build:
+      context: ..
+      dockerfile: brain/Dockerfile
+    image: haunted-brain:latest
+    restart: unless-stopped
+
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+      - /run:size=16m,mode=0755
+
+    cap_drop:
+      - ALL
+
+    security_opt:
+      - no-new-privileges:true
+
+    mem_limit: 512m
+    cpus: "1.0"
+
+    # Session logs are mounted READ-ONLY. The database lives on its own
+    # volume, which the trap service never mounts.
+    volumes:
+      - trap_logs:/data/logs:ro
+      - brain_db:/data/db
+
+    # BRAIN_API_TOKEN, BRAIN_LLM_API_KEY and BRAIN_LLM_MODEL come from .env.
+    env_file:
+      - ../.env
+
+    environment:
+      BRAIN_LOG_DIR: "/data/logs"
+      BRAIN_DATABASE_PATH: "/data/db/brain.db"
+
+    # Brain is not on trap_net, so the internet-facing trap cannot reach it.
+    networks:
+      - brain_net
+
 # ---------------------------------------------------------------------------
 # Named volumes
 # ---------------------------------------------------------------------------
@@ -80,10 +122,16 @@ volumes:
     driver: local
   trap_logs:
     driver: local
+  # Brain database only; never mounted by the trap service.
+  brain_db:
+    driver: local
 
 # ---------------------------------------------------------------------------
 # Networks
 # ---------------------------------------------------------------------------
 networks:
   trap_net:
+    driver: bridge
+  # Brain-side network; the trap service is NOT attached.
+  brain_net:
     driver: bridge

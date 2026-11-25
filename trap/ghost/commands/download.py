@@ -8,6 +8,7 @@ file in the per-session in-memory filesystem.
 from __future__ import annotations
 
 import hashlib
+import ipaddress
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 from urllib.parse import urlsplit
@@ -73,6 +74,15 @@ def _host_of(url: str) -> str:
     return host or "unknown-host"
 
 
+def _is_raw_ip(host: str) -> bool:
+    """True if ``host`` is an IPv4/IPv6 literal (brackets tolerated)."""
+    try:
+        ipaddress.ip_address(host.strip("[]"))
+    except ValueError:
+        return False
+    return True
+
+
 def _fake_size(url: str) -> int:
     """Deterministic plausible size (KiB range) derived from the URL."""
     digest = hashlib.sha256(url.encode("utf-8", "replace")).digest()
@@ -86,11 +96,17 @@ def _human(size: int) -> str:
 def _wget_output(url: str, name: str, size: int) -> str:
     now = datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S")
     host = _host_of(url)
-    return "\n".join(
-        [
-            f"--{now}--  {url}",
+    lines = [f"--{now}--  {url}"]
+    if _is_raw_ip(host):
+        lines.append(f"Connecting to {host}:80... connected.")
+    else:
+        lines += [
             f"Resolving {host} ({host})... 93.184.216.34",
             f"Connecting to {host} ({host})|93.184.216.34|:80... connected.",
+        ]
+    return "\n".join(
+        [
+            *lines,
             "HTTP request sent, awaiting response... 200 OK",
             f"Length: {size} ({_human(size)}) [application/octet-stream]",
             f"Saving to: '{name}'",

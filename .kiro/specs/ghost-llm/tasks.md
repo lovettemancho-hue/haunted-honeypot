@@ -6,8 +6,8 @@ Python 3.12 implementation, in this order: config and dependencies, the `LLMRepl
 
 ## Tasks
 
-- [ ] 1. Config and dependencies
-  - [ ] 1.1 Add LLM settings to config, `.env.example` and `pyproject.toml`
+- [x] 1. Config and dependencies
+  - [x] 1.1 Add LLM settings to config, `.env.example` and `pyproject.toml`
     - In `trap/config.py` add `llm_backend` (default `scripted`), `llm_api_key` (`field(default="", repr=False)`), `llm_model` and `llm_daily_limit` (default 500, parsed with the existing `_positive_int` helper)
     - Raise `ConfigError` naming `TRAP_LLM_BACKEND` for values other than `scripted`/`gemini`
     - Raise `ConfigError` naming the specific missing variable when the backend is `gemini` and the key or model is empty
@@ -42,19 +42,19 @@ Python 3.12 implementation, in this order: config and dependencies, the `LLMRepl
     - **Property 4: API key never appears in Config's textual representation**
     - **Validates: Requirements 1.7**
 
-- [ ] 2. LLMReply interface change, dispatcher and existing tests
-  - [ ] 2.1 Add `LLMReply` and change the `LLMInterface` contract
+- [x] 2. LLMReply interface change, dispatcher and existing tests
+  - [x] 2.1 Add `LLMReply` and change the `LLMInterface` contract
     - In `trap/ghost/llm.py` add `ReplySource`, the frozen `LLMReply(text, source)` dataclass, and change `LLMInterface.respond` to return `LLMReply`
     - Update `ScriptedFallback.respond` to return `LLMReply(..., "scripted")`
     - _Requirements: 5.1, 5.3_
 
-  - [ ] 2.2 Update the dispatcher to use `LLMReply`
+  - [x] 2.2 Update the dispatcher to use `LLMReply`
     - In `trap/ghost/dispatcher.py` `_dispatch_single`, read `reply.text` (capped at `MAX_LLM_OUTPUT_CHARS`) and set `generated_by=reply.source`
     - Keep the existing exception fallback unchanged
     - Confirm scripted handler results keep `generated_by="scripted"`
     - _Requirements: 5.4, 5.5_
 
-  - [ ] 2.3 Update existing tests to the `LLMReply` contract
+  - [x] 2.3 Update existing tests to the `LLMReply` contract
     - `tests/test_unit_llm.py`: `ScriptedFallback` assertions and stubs return or compare `LLMReply`
     - `tests/test_unit_dispatcher.py`: `RecordingLLM.respond` returns `LLMReply(reply, "llm")`, and assertions compare against `reply.text`
     - `tests/test_properties.py`: update the scripted-fallback property and the `_Raising` stub in the LLM-exception property to use `LLMReply`
@@ -70,8 +70,8 @@ Python 3.12 implementation, in this order: config and dependencies, the `LLMRepl
     - **Property 17: Scripted handler responses are always tagged scripted**
     - **Validates: Requirements 5.5**
 
-- [ ] 3. GeminiBackend
-  - [ ] 3.1 Implement `GeminiBackend` and prompt building in `trap/ghost/llm.py`
+- [x] 3. GeminiBackend
+  - [x] 3.1 Implement `GeminiBackend` and prompt building in `trap/ghost/llm.py`
     - Constants: `SESSION_CALL_LIMIT=20`, `REQUEST_TIMEOUT_SECONDS=5`, `MAX_REPLY_CHARS=400`, `GEMINI_ENDPOINT_TEMPLATE`, `DELIMITER_START`, `DELIMITER_END`, `SYSTEM_INSTRUCTION` (with the Persona facts)
     - `_neutralise`, `_build_request_body` (cwd and last 10 history entries inside the untrusted block) and `_extract_text` (raises on blocked prompt or no candidate text)
     - Constructor takes keyword-only `client` and `clock` for injection
@@ -143,8 +143,8 @@ Python 3.12 implementation, in this order: config and dependencies, the `LLMRepl
     - **Property 15: Failure logs never contain sensitive data**
     - **Validates: Requirements 4.12, 1.8**
 
-- [ ] 4. Server wiring
-  - [ ] 4.1 Share one LLM backend across sessions in `trap/server.py`
+- [x] 4. Server wiring
+  - [x] 4.1 Share one LLM backend across sessions in `trap/server.py`
     - Add `build_llm_backend(config)` returning one `GeminiBackend` or `ScriptedFallback`
     - Store it in `_Shared.llm` and pass it to `build_default_dispatcher` for every session
     - Make the shared backend reachable from `start_server`, choosing the smallest diff that keeps existing call sites working, and `await aclose()` on a `GeminiBackend` in the `finally` block
@@ -164,13 +164,13 @@ Python 3.12 implementation, in this order: config and dependencies, the `LLMRepl
     - **Property 21: Ghost Shell never crashes or reaches a process call under arbitrary input with Gemini mocked**
     - **Validates: Requirements 9.7, 8.1**
 
-- [ ] 5. Prompt basename fix
-  - [ ] 5.1 Change `build_prompt` to show the cwd basename
+- [x] 5. Prompt basename fix
+  - [x] 5.1 Change `build_prompt` to show the cwd basename
     - In `trap/ghost/shell.py` show `~` for the home directory, `/` for root, otherwise only the last path component
     - Use `#` for root and `$` for other users
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
 
-  - [ ] 5.2 Update prompt tests and the prompt property in `tests/test_properties.py`
+  - [x] 5.2 Update prompt tests and the prompt property in `tests/test_properties.py`
     - Update the existing prompt unit tests to the basename format, including the `/tmp` as root case `[root@records-srv-09 tmp]# `
     - Update `_expected_prompt` and the prompt property (Property 11 of trap-core) to compute the basename
     - _Requirements: 6.4, 9.9_
@@ -180,8 +180,8 @@ Python 3.12 implementation, in this order: config and dependencies, the `LLMRepl
     - **Property 18: Prompt shows only the basename of the working directory**
     - **Validates: Requirements 6.1, 6.2, 6.3, 6.5**
 
-- [ ] 6. Download raw-IP fix
-  - [ ] 6.1 Fix `wget` output for raw-IP URLs in `trap/ghost/commands/download.py`
+- [x] 6. Download raw-IP fix
+  - [x] 6.1 Fix `wget` output for raw-IP URLs in `trap/ghost/commands/download.py`
     - Add `_is_raw_ip` using `ipaddress.ip_address`
     - For a raw IP, omit the `Resolving` line and print `Connecting to <ip>:80... connected.` with the IP from the URL
     - Keep hostname output unchanged, keep `curl` output free of a `Resolving` line, and keep recording `download_attempt` without fetching
@@ -203,7 +203,7 @@ Python 3.12 implementation, in this order: config and dependencies, the `LLMRepl
     - **Property 20: Hostname download URLs are unaffected by the raw-IP fix**
     - **Validates: Requirements 7.3**
 
-- [ ] 7. Final checkpoint - Ensure all checks pass
+- [x] 7. Final checkpoint - Ensure all checks pass
   - Run `.\.venv\Scripts\python.exe -m ruff check .`
   - Run `.\.venv\Scripts\python.exe -m bandit -r trap -ll` and confirm zero high-severity findings
   - Run `.\.venv\Scripts\python.exe -m mypy --strict trap`

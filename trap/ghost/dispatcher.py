@@ -5,7 +5,8 @@ registry of handlers. Nothing here spawns processes or evaluates code.
 
 ``generated_by`` tracking (used by ``shell.py`` when logging the response
 event): every :class:`CommandResult` carries ``generated_by`` (``"scripted"``
-by default, ``"llm"`` when the text came from ``LLMInterface.respond``). After
+by default; for unhandled commands it is the ``source`` of the
+``LLMReply`` returned by ``LLMInterface.respond``). After
 each :meth:`Dispatcher.dispatch` call, :attr:`Dispatcher.last_generated_by` is
 ``"llm"`` if any part of that input was answered by the LLM, else
 ``"scripted"``. Use one dispatcher per session so the attribute is not shared.
@@ -188,14 +189,14 @@ class Dispatcher:
 
         fallback = f"bash: {name}: command not found"
         try:
-            text = await self._llm.respond(ctx, " ".join(tokens))
+            reply = await self._llm.respond(ctx, " ".join(tokens))
         except Exception:
             logger.error("LLM respond failed for %r", name, exc_info=True)
             return CommandResult(fallback, True)
         return CommandResult(
-            output=str(text)[:MAX_LLM_OUTPUT_CHARS],
+            output=str(reply.text)[:MAX_LLM_OUTPUT_CHARS],
             is_error=False,
-            generated_by="llm",
+            generated_by=reply.source,
         )
 
 

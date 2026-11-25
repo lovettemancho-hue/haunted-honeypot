@@ -1,0 +1,742 @@
+{
+  "pbtResults": {
+    "4.4 Write property tests for content techniques in `brain/tests/test_attack_map_content.py`": {
+      "status": "passed",
+      "lastRunTimestamp": 1795617577334
+    },
+    "3.3 Write property test for invalid lines in `brain/tests/test_reader_invalid.py`": {
+      "status": "passed",
+      "lastRunTimestamp": 1795617579116
+    },
+    "4.5 Write property tests for determinism and arbitrary input in `brain/tests/test_attack_map_properties.py`": {
+      "status": "passed",
+      "lastRunTimestamp": 1795617640815
+    },
+    "4.3 Write property tests for login techniques in `brain/tests/test_attack_map_login.py`": {
+      "status": "passed",
+      "lastRunTimestamp": 1795617651358
+    },
+    "7.4 Write property tests for rules in `brain/tests/test_containment_rules.py`": {
+      "status": "passed",
+      "lastRunTimestamp": 1795618758192
+    },
+    "5.5 Write property tests for session folding and storage in `brain/tests/test_ingest_properties.py`": {
+      "status": "passed",
+      "lastRunTimestamp": 1795618916377
+    }
+  },
+  "executionHistory": {
+    "1.1 Create `brain/pyproject.toml`, package skeleton and install dependencies into `.venv`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613380315
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613435447
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613665841
+      }
+    ],
+    "1.2 Implement `brain/config.py` and document env vars in `.env.example`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613381364
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613670657
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613826527
+      }
+    ],
+    "2.1 Implement `brain/models.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613382081
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613671490
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613825828
+      }
+    ],
+    "2.2 Implement `brain/db.py` and shared test fixtures": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613382589
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613833006
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614326821
+      }
+    ],
+    "3.1 Implement `brain/ingest/reader.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613383215
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613833895
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614328421
+      }
+    ],
+    "4.1 Implement `brain/analysis/attack_map.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613384674
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613834772
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614329709
+      }
+    ],
+    "4.2 Implement `brain/analysis/severity.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613385629
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613835426
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614330280
+      }
+    ],
+    "5.1 Implement `brain/ingest/ingestor.py` core": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613387798
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614445511
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614789653
+      }
+    ],
+    "5.2 Implement `brain/notes/template.py` and `brain/llm.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613388691
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613836159
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614331565
+      }
+    ],
+    "5.3 Implement `brain/notes/generator.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613389643
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614446152
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614790787
+      }
+    ],
+    "5.4 Wire note generation into the ingest cycle": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613391042
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614799774
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795615827223
+      }
+    ],
+    "6. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613391983
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617314194
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795626190171
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795626324239
+      }
+    ],
+    "7.1 Implement `brain/containment/validate.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613392501
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614344428
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614437959
+      }
+    ],
+    "7.2 Implement `brain/containment/rules.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613393314
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614447037
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614791419
+      }
+    ],
+    "7.3 Implement `brain/containment/script.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613393974
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614800778
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795615828657
+      }
+    ],
+    "8.1 Implement `brain/iocs.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613394558
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614345572
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614438852
+      }
+    ],
+    "8.2 Implement `brain/analysis/threat.py` and `brain/stats.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613395525
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614346410
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614439619
+      }
+    ],
+    "9.1 Implement `brain/api/deps.py` and `brain/schemas.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613396028
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614447758
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614792223
+      }
+    ],
+    "9.2 Implement routers in `brain/api/stats.py`, `brain/api/sessions.py`, `brain/api/containment.py`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613396664
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614801410
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795615830007
+      }
+    ],
+    "9.3 Implement `brain/main.py` app factory and wire everything": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613397203
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795615838997
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795616081303
+      }
+    ],
+    "10.1 Create `brain/Dockerfile` and add the `brain` service to `deploy/docker-compose.yml`": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613397919
+      },
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795616086537
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617316197
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795619125482
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795620256178
+      }
+    ],
+    "11. Final checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613398538
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617316757
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795626329675
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795626669020
+      }
+    ],
+    "1. Set up the brain package, dependencies and configuration": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795613827452
+      }
+    ],
+    "2. Implement data models and database layer": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614327689
+      }
+    ],
+    "3. Implement the pure offset reader": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614328918
+      }
+    ],
+    "4. Implement ATT&CK mapping and severity": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614330840
+      }
+    ],
+    "8. Implement IOCs, threat level and stats helpers": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795614440283
+      }
+    ],
+    "5. Implement the ingestor": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795615827807
+      }
+    ],
+    "7. Implement containment generation": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795615829187
+      }
+    ],
+    "9. Implement the API": [
+      {
+        "executionId": "7da8465c-87ef-4483-a06c-be584ff07afe",
+        "chatSessionId": "sess_22253e2e-7cc9-4504-ba74-bdb959f8808b",
+        "timestamp": 1795616082190
+      }
+    ],
+    "3.2 Write property tests for offset reads in `brain/tests/test_reader_offsets.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617308877
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617366857
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617673277
+      }
+    ],
+    "3.3 Write property test for invalid lines in `brain/tests/test_reader_invalid.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617311271
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617367134
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617673577
+      }
+    ],
+    "4.3 Write property tests for login techniques in `brain/tests/test_attack_map_login.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617311577
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617367568
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617673761
+      }
+    ],
+    "4.4 Write property tests for content techniques in `brain/tests/test_attack_map_content.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617312077
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617368078
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617673995
+      }
+    ],
+    "4.5 Write property tests for determinism and arbitrary input in `brain/tests/test_attack_map_properties.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617312453
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617368708
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617674533
+      }
+    ],
+    "4.6 Write property test and unit examples for severity in `brain/tests/test_severity.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617312938
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617679407
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795618669029
+      }
+    ],
+    "5.5 Write property tests for session folding and storage in `brain/tests/test_ingest_properties.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617313337
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795618675711
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795618927999
+      }
+    ],
+    "5.6 Write integration tests in `brain/tests/test_ingest_cycle.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617313667
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795618936929
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795619119662
+      }
+    ],
+    "5.7 Write property and unit tests for notes in `brain/tests/test_notes.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617313933
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795618676524
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795618928286
+      }
+    ],
+    "7.4 Write property tests for rules in `brain/tests/test_containment_rules.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617314458
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795618677032
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795618928496
+      }
+    ],
+    "7.5 Write property tests for script safety in `brain/tests/test_containment_script.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617314717
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795618937640
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795619119967
+      }
+    ],
+    "8.3 Write property tests for IOCs and threat level in `brain/tests/test_iocs_threat.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617315150
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617679605
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795618669309
+      }
+    ],
+    "9.4 Write property tests for the API in `brain/tests/test_api_properties.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617315434
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795619125015
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795620254997
+      }
+    ],
+    "9.5 Write API example tests in `brain/tests/test_api_examples.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617315940
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795619125237
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795620255534
+      }
+    ],
+    "10.2 Write static checks in `brain/tests/test_static.py`": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795617316433
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795620260276
+      },
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795626185057
+      }
+    ],
+    "10. Package and deploy": [
+      {
+        "executionId": "cf2afa1f-2924-460d-93db-fa73c3dec904",
+        "chatSessionId": "sess_974d4215-e291-4f3c-bef0-3c4c2736b09b",
+        "timestamp": 1795626185820
+      }
+    ]
+  }
+}

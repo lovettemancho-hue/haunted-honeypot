@@ -9,7 +9,7 @@ from typing import Any, cast
 
 import pytest
 
-from trap.ghost.llm import LLMInterface, ScriptedFallback
+from trap.ghost.llm import LLMInterface, LLMReply, ScriptedFallback
 from trap.models import Session, SessionContext
 
 
@@ -31,22 +31,22 @@ def _ctx() -> SessionContext:
 
 async def test_scripted_fallback_uses_first_token() -> None:
     result = await ScriptedFallback().respond(_ctx(), "nmap -sV 10.0.0.1")
-    assert result == "bash: nmap: command not found"
+    assert result == LLMReply("bash: nmap: command not found", "scripted")
 
 
 async def test_scripted_fallback_single_token() -> None:
     result = await ScriptedFallback().respond(_ctx(), "foo")
-    assert result == "bash: foo: command not found"
+    assert result == LLMReply("bash: foo: command not found", "scripted")
 
 
 async def test_scripted_fallback_ignores_extra_whitespace() -> None:
     result = await ScriptedFallback().respond(_ctx(), "   foo   bar  ")
-    assert result == "bash: foo: command not found"
+    assert result == LLMReply("bash: foo: command not found", "scripted")
 
 
 async def test_scripted_fallback_whitespace_only_uses_whole_string() -> None:
     result = await ScriptedFallback().respond(_ctx(), "   ")
-    assert result == "bash:    : command not found"
+    assert result == LLMReply("bash:    : command not found", "scripted")
 
 
 def test_llm_interface_is_abstract() -> None:
@@ -68,13 +68,13 @@ class _RecordingLLM(LLMInterface):
     def __init__(self) -> None:
         self.calls: list[str] = []
 
-    async def respond(self, session_context: SessionContext, command: str) -> str:
+    async def respond(self, session_context: SessionContext, command: str) -> LLMReply:
         self.calls.append(command)
-        return "stitched output"
+        return LLMReply("stitched output", "llm")
 
 
 class _RaisingLLM(LLMInterface):
-    async def respond(self, session_context: SessionContext, command: str) -> str:
+    async def respond(self, session_context: SessionContext, command: str) -> LLMReply:
         raise RuntimeError("llm down")
 
 

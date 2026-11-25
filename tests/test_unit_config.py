@@ -21,6 +21,9 @@ ALL_VARS = (
     "TRAP_MAX_SESSION_SECONDS",
     "TRAP_ACCEPT_AFTER_ATTEMPTS",
     "TRAP_LLM_BACKEND",
+    "TRAP_LLM_API_KEY",
+    "TRAP_LLM_MODEL",
+    "TRAP_LLM_DAILY_LIMIT",
     "TRAP_LLM_API_URL",
 )
 
@@ -55,14 +58,16 @@ def test_all_values_overridden(env: pytest.MonkeyPatch) -> None:
     env.setenv("TRAP_IDLE_TIMEOUT_SECONDS", "10")
     env.setenv("TRAP_MAX_SESSION_SECONDS", "20")
     env.setenv("TRAP_ACCEPT_AFTER_ATTEMPTS", "5")
-    env.setenv("TRAP_LLM_BACKEND", "openai")
+    env.setenv("TRAP_LLM_BACKEND", "gemini")
+    env.setenv("TRAP_LLM_API_KEY", "test-key")
+    env.setenv("TRAP_LLM_MODEL", "test-model")
     env.setenv("TRAP_LLM_API_URL", "https://llm.example/v1")
     cfg = load_config()
     assert cfg.trap_port == 4000
     assert cfg.idle_timeout_seconds == 10
     assert cfg.max_session_seconds == 20
     assert cfg.accept_after_attempts == 5
-    assert cfg.llm_backend == "openai"
+    assert cfg.llm_backend == "gemini"
     assert cfg.llm_api_url == "https://llm.example/v1"
 
 

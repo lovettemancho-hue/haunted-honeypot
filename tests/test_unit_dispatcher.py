@@ -10,7 +10,7 @@ import pytest
 from trap.config import Config
 from trap.ghost.dispatcher import CommandResult, Dispatcher, build_default_dispatcher
 from trap.ghost.filesystem import FakeFilesystem, load_template
-from trap.ghost.llm import LLMInterface
+from trap.ghost.llm import LLMInterface, LLMReply
 from trap.models import Session, SessionContext
 
 TEMPLATE_PATH = Path(__file__).resolve().parent.parent / "trap" / "ghost" / "fs_template.yaml"
@@ -21,9 +21,9 @@ class RecordingLLM(LLMInterface):
         self.calls: list[str] = []
         self.reply = reply
 
-    async def respond(self, session_context: SessionContext, command: str) -> str:
+    async def respond(self, session_context: SessionContext, command: str) -> LLMReply:
         self.calls.append(command)
-        return self.reply
+        return LLMReply(self.reply, "llm")
 
 
 def make_ctx(tmp_path: Path) -> SessionContext:
@@ -126,7 +126,7 @@ class TestLLMFallthrough:
 
     async def test_llm_exception_gives_command_not_found(self, ctx: SessionContext) -> None:
         class Boom(LLMInterface):
-            async def respond(self, session_context: SessionContext, command: str) -> str:
+            async def respond(self, session_context: SessionContext, command: str) -> LLMReply:
                 raise RuntimeError("down")
 
         d = build_default_dispatcher(Boom())

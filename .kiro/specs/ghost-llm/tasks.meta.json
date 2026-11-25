@@ -1,0 +1,217 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Add LLM settings to config, `.env.example` and `pyproject.toml`": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610419488
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610432058
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610901330
+      }
+    ],
+    "2.1 Add `LLMReply` and change the `LLMInterface` contract": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610419988
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610432791
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610903035
+      }
+    ],
+    "2.2 Update the dispatcher to use `LLMReply`": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610420753
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610913028
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612274865
+      }
+    ],
+    "2.3 Update existing tests to the `LLMReply` contract": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610421227
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612303103
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612676174
+      }
+    ],
+    "3.1 Implement `GeminiBackend` and prompt building in `trap/ghost/llm.py`": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610421903
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610913589
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612275826
+      }
+    ],
+    "4.1 Share one LLM backend across sessions in `trap/server.py`": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610422357
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612304131
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612674276
+      }
+    ],
+    "5.1 Change `build_prompt` to show the cwd basename": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610422869
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610433596
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610903661
+      }
+    ],
+    "5.2 Update prompt tests and the prompt property in `tests/test_properties.py`": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610423385
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610914287
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612277073
+      }
+    ],
+    "6.1 Fix `wget` output for raw-IP URLs in `trap/ghost/commands/download.py`": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610423876
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610434238
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610904660
+      }
+    ],
+    "7. Final checkpoint - Ensure all checks pass": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610424436
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612681022
+      },
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612809086
+      }
+    ],
+    "1. Config and dependencies": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610902272
+      }
+    ],
+    "6. Download raw-IP fix": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795610905217
+      }
+    ],
+    "3. GeminiBackend": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612276495
+      }
+    ],
+    "5. Prompt basename fix": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612277752
+      }
+    ],
+    "4. Server wiring": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612675356
+      }
+    ],
+    "2. LLMReply interface change, dispatcher and existing tests": [
+      {
+        "executionId": "b3837635-9746-459d-8908-bf4c4592fb83",
+        "chatSessionId": "sess_fc6948f7-8517-4e74-a116-8b913ce734c7",
+        "timestamp": 1795612676913
+      }
+    ]
+  }
+}
