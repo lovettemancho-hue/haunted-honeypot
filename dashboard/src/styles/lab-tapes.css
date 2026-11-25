@@ -108,3 +108,19 @@
 .terminal-line--dim, .terminal-line--dim .attacker-text { color: var(--muted); }
 .terminal-line--command .attacker-text { color: var(--text-terminal); font-weight: 700; }
 
+
+/* Technique IDs in the tape list: one small chip each, wrapping onto new lines. */
+.tape-row__attacks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+}
+.tape-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 1px 6px;
+  border: 1px solid var(--muted);
+  color: var(--muted);
+  white-space: nowrap;
+}
