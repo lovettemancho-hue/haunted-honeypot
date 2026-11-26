@@ -17,6 +17,9 @@ RUN npm run build
 # ---- Final stage: static output only (no Node, no sources, no node_modules) ----
 # Served by Caddy; the compose file shares /srv with the caddy service.
 FROM busybox:1.36
-COPY --from=build /app/dist /srv
+COPY --from=build /app/dist /site
+# /srv is the shared volume. On every start, replace its contents with this
+# image's build, so `docker compose up -d --build` publishes a new dashboard.
+RUN mkdir -p /srv && chown 65534:65534 /srv
 USER 65534:65534
-CMD ["sleep", "infinity"]
+CMD ["sh", "-c", "rm -rf /srv/* && cp -r /site/. /srv/ && exec sleep infinity"]

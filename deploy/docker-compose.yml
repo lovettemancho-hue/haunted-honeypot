@@ -128,10 +128,8 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
-    # Docker copies the image's /srv into this empty named volume on first
-    # creation; caddy mounts the same volume read-only. After rebuilding the
-    # dashboard image, run `docker compose down` and
-    # `docker volume rm <project>_dashboard_dist` to publish the new build.
+    # On every start this container copies its build into the shared volume;
+    # caddy mounts the same volume read-only. `up -d --build` publishes changes.
     volumes:
       - dashboard_dist:/srv
     networks:
