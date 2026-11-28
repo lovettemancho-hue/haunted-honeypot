@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { fetchContainment, fetchContainmentScript } from "../api/containment";
 import { fetchSessions } from "../api/sessions";
+import { tapeHref } from "../routes";
 import { AttackerText } from "../components/AttackerText";
 import { ConnectionLostBanner } from "../components/ConnectionLostBanner";
 import { EmptyState } from "../components/EmptyState";
@@ -26,6 +27,18 @@ function initialChecklist(): ChecklistState {
   const state: ChecklistState = {};
   for (const item of CHECKLIST_ITEMS) state[item.id] = false;
   return state;
+}
+
+/** Opens the first tape that triggered a rule, so the reason for it can be checked. */
+function EvidenceLink({ ids }: { ids: string[] }) {
+  const id = ids[0];
+  if (!id) return null;
+  return (
+    <>
+      {" · "}
+      <a href={tapeHref(id)}>Replay the evidence →</a>
+    </>
+  );
 }
 
 export function Containment() {
@@ -158,6 +171,7 @@ export function Containment() {
                 <p className="rule-card__meta">
                   Kind: <AttackerText value={rule.kind} /> · Evidence: {rule.evidence_sessions.length}{" "}
                   {rule.evidence_sessions.length === 1 ? "session" : "sessions"}
+                  <EvidenceLink ids={rule.evidence_sessions} />
                 </p>
                 <p className="rule-card__desc">
                   <AttackerText value={rule.description} />

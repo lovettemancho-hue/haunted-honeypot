@@ -11,7 +11,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 from brain.iocs import defang
 from brain.models import Severity
@@ -53,6 +53,7 @@ class SessionListItem(BaseModel):
     severity: SeverityInfo
     open: bool
     techniques: list[str]
+    reviewed: bool = False
 
 
 class TechniqueOut(BaseModel):
@@ -85,11 +86,39 @@ class SessionDetail(BaseModel):
     techniques: list[TechniqueOut]
     lab_note: str | None
     iocs: list[str]
+    reviewed: bool = False
 
     @field_validator("iocs")
     @classmethod
     def _defang_iocs(cls, value: list[str]) -> list[str]:
         return [defang(item) for item in value]
+
+
+class SessionSummary(BaseModel):
+    """Counts for the tape filters. ``by_severity`` ignores the severity filter
+    and ``by_technique`` ignores the technique filter, so each filter shows how
+    many tapes picking it would give."""
+
+    total: int
+    unreviewed: int
+    by_severity: dict[str, int]
+    by_technique: dict[str, int]
+    first_seen: datetime | None
+    last_seen: datetime | None
+
+
+class ReviewIn(BaseModel):
+    reviewed: bool
+
+
+class BulkReviewIn(BaseModel):
+    ids: list[str] = Field(max_length=500)
+    reviewed: bool
+
+
+class ReviewOut(BaseModel):
+    updated: int
+    reviewed: bool
 
 
 class ContainmentRuleOut(BaseModel):

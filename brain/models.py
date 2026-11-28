@@ -86,6 +86,13 @@ class LabNote(SQLModel, table=True):
     created_at: datetime
 
 
+class Review(SQLModel, table=True):
+    """An analyst marked this tape as reviewed (dashboard triage state)."""
+
+    session_id: str = Field(primary_key=True, foreign_key="session.id")
+    reviewed_at: datetime
+
+
 class IngestOffset(SQLModel, table=True):
     file_name: str = Field(primary_key=True)
     offset: int

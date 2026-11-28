@@ -1,4 +1,4 @@
-﻿export type ApiSeverity = "Class_1" | "Class_3" | "Class_5";
+export type ApiSeverity = "Class_1" | "Class_3" | "Class_5";
 
 export interface StatsResponse {
   attempts: number;
@@ -22,6 +22,8 @@ export interface SessionListItem {
   attack_ids: string[];
   /** Plain-language explanation of the severity, from the Brain (tooltip text). */
   severity_description?: string;
+  /** An analyst marked this tape as reviewed. */
+  reviewed?: boolean;
 }
 
 export type SessionListResponse = SessionListItem[];
@@ -57,4 +59,15 @@ export interface ContainmentRule {
   description: string;
   content: string;
   evidence_sessions: string[];
+}
+
+export interface SessionSummary {
+  total: number;
+  unreviewed: number;
+  /** Keyed by severity label, e.g. "Class 5". */
+  by_severity: Record<string, number>;
+  /** Keyed by ATT&CK id, most common first. */
+  by_technique: Array<{ id: string; count: number }>;
+  first_seen: string | null;
+  last_seen: string | null;
 }

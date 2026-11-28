@@ -50,6 +50,7 @@ describe("source safety: links never derive from attacker text (Req 6.4)", () =>
     /^\{"[^"]*"\}$/, // static string in braces
     /^\{tapeHref\([A-Za-z_.]*\bid\)\}$/, // route helper with a server-assigned id
     /^\{item\.href\}$/, // NAV_ITEMS constant
+    /^\{tapesHref\(\{[^}]*\}\)\}$/, // filtered Lab Tapes link (values URL-encoded)
   ];
 
   it("every <a> element uses a static or route-helper href", () => {
@@ -58,7 +59,7 @@ describe("source safety: links never derive from attacker text (Req 6.4)", () =>
       const code = stripComments(f.text);
       for (const m of code.matchAll(/<a(\s[^>]*?)?>/gs)) {
         const attrs = m[1] ?? "";
-        const hm = attrs.match(/\shref=("[^"]*"|\{[^}]*(?:\([^)]*\))?[^}]*\})/s) ?? attrs.match(/^href=("[^"]*"|\{[^}]*\})/s);
+        const hm = attrs.match(/\shref=("[^"]*"|\{(?:[^{}]|\{[^{}]*\})*\})/s) ?? attrs.match(/^href=("[^"]*"|\{[^}]*\})/s);
         const value = hm?.[1]?.trim();
         found.push(`${f.path}: ${value ?? "(no href)"}`);
         expect(value, `<a> without href in ${f.path}`).toBeDefined();
@@ -92,7 +93,7 @@ describe("source safety: links never derive from attacker text (Req 6.4)", () =>
       const code = stripComments(f.text);
       for (const m of code.matchAll(/location\.hash\s*=\s*([^;\n]+)/g)) {
         const rhs = m[1]?.trim() ?? "";
-        expect(rhs, `unsafe hash assignment in ${f.path}`).toMatch(/^(tape(Href|Hash)\((null|[A-Za-z_.]*\bid)\)|"#\/[a-z/]*")$/);
+        expect(rhs, `unsafe hash assignment in ${f.path}`).toMatch(/^(tape(Href|Hash)\((null|[A-Za-z_.]*\bid)\)|tapesHref\(\{[^}]*\}\)|"#\/[a-z/]*")$/);
       }
     }
   });

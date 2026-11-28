@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState, type KeyboardEvent } from "react";
-import { fetchSessions } from "../api/sessions";
+import { fetchSessions, fetchSessionSummary } from "../api/sessions";
 import { fetchStats } from "../api/stats";
 import type { SessionListItem } from "../api/types";
-import { tapeHref } from "../routes";
+import { tapeHref, tapesHref } from "../routes";
 import { useAuth } from "../auth/AuthContext";
 import { AttackerText } from "../components/AttackerText";
 import { ConnectionLostBanner } from "../components/ConnectionLostBanner";
@@ -12,6 +12,7 @@ import { VoltageMeter } from "../components/VoltageMeter";
 import { usePoller } from "../hooks/usePoller";
 import { formatDuration } from "../lib/duration";
 import { parseTechniqueCounts, parseTopPasswords } from "../lib/statParsers";
+import { TECHNIQUE_NAMES } from "../lib/techniques";
 import { formatTimestamp } from "../lib/timestamp";
 import { techniqueBarWidth } from "../lib/voltage";
 import "../styles/lab-monitor.css";
@@ -19,6 +20,8 @@ import "../styles/lab-monitor.css";
 const POLL_MS = 5000;
 const SESSIONS_LIMIT = 50;
 const TOP_PASSWORDS_MAX = 10;
+/** The monitor shows only the latest tapes; Lab Tapes has the full, filterable list. */
+const LOG_ROWS = 10;
 
 function sessionSeconds(s: SessionListItem, nowMs: number): number {
   const start = Date.parse(s.started_at);
@@ -86,7 +89,12 @@ export function LabMonitor() {
     () => fetchSessions(token ?? "", onUnauthorized, { limit: SESSIONS_LIMIT, offset: 0 }),
     [token, onUnauthorized],
   );
+  const summaryFetch = useCallback(
+    () => fetchSessionSummary(token ?? "", onUnauthorized),
+    [token, onUnauthorized],
+  );
   const stats = usePoller(statsFetch, { intervalMs: POLL_MS, enabled });
+  const summary = usePoller(summaryFetch, { intervalMs: POLL_MS * 2, enabled });
   const sessions = usePoller(sessionsFetch, { intervalMs: POLL_MS, enabled });
   const connectionLost = stats.connectionLost || sessions.connectionLost;
 
@@ -143,6 +151,11 @@ export function LabMonitor() {
         <div className="panel stat-card">
           <p className="stat-card__label">Break-ins (got past login)</p>
           <p className="stat-card__value mono">{s ? s.captured : "—"}</p>
+          {s && s.captured > 0 ? (
+            <a className="stat-card__link" href={tapesHref({ login: "yes" })}>
+              See the break-ins →
+            </a>
+          ) : null}
         </div>
         <div className="panel stat-card">
           <p className="stat-card__label">Longest session</p>
@@ -153,6 +166,21 @@ export function LabMonitor() {
       <section className="panel" aria-labelledby="lm-log">
         <h2 id="lm-log">Experiment log</h2>
         <p className="lab-monitor__hint">Recent attack sessions (Tapes). Select a row to replay it.</p>
+        {summary.data && summary.data.unreviewed > 0 ? (
+          <p className="review-callout">
+            <span>
+              <strong className="mono">{summary.data.unreviewed}</strong> of {summary.data.total} tapes
+              waiting for review
+              {summary.data.by_severity["Class 5"]
+                ? ` (${summary.data.by_severity["Class 5"]} Class 5 in total)`
+                : ""}
+              .
+            </span>
+            <a className="btn" href={tapesHref({ status: "unreviewed" })}>
+              Start reviewing →
+            </a>
+          </p>
+        ) : null}
         {sessionList.length === 0 ? (
           <EmptyState title="No experiments yet">
             <p className="quiet-line">The lab is quiet... for now.</p>No attacker has connected yet. Sessions will appear here as they arrive.
@@ -171,19 +199,26 @@ export function LabMonitor() {
                 </tr>
               </thead>
               <tbody>
-                {sessionList.map((row) => (
+                {sessionList.slice(0, LOG_ROWS).map((row) => (
                   <SessionRow key={row.id} session={row} nowMs={nowMs} />
                 ))}
               </tbody>
             </table>
           </div>
         )}
+        {sessionList.length > LOG_ROWS ? (
+          <p className="lab-monitor__more">
+            <a href="#/tapes">See all tapes in Lab Tapes →</a>
+          </p>
+        ) : null}
       </section>
 
       <div className="grid-2">
         <section className="panel" aria-labelledby="lm-tech">
           <h2 id="lm-tech">ATT&amp;CK techniques</h2>
-          <p className="lab-monitor__hint">Known attacker behaviours (MITRE ATT&amp;CK) seen so far.</p>
+          <p className="lab-monitor__hint">
+            Known attacker behaviours (MITRE ATT&amp;CK) seen so far. Select one to see its tapes.
+          </p>
           {techniques.length === 0 ? (
             <EmptyState title="No techniques detected yet">
               Behaviours will be listed once attackers do something recognisable.
@@ -192,9 +227,16 @@ export function LabMonitor() {
             <ul className="bar-list">
               {techniques.map((t) => (
                 <li key={t.label} className="bar-list__item">
-                  <span className="bar-list__id mono">
+                  <a
+                    className="bar-list__id mono"
+                    href={tapesHref({ technique: t.label })}
+                    title={`Show tapes with ${t.label}`}
+                  >
                     <AttackerText value={t.label} />
-                  </span>
+                    {TECHNIQUE_NAMES[t.label] ? (
+                      <span className="bar-list__name"> {TECHNIQUE_NAMES[t.label]}</span>
+                    ) : null}
+                  </a>
                   <span className="bar-list__track" aria-hidden="true">
                     <span
                       className="bar-list__fill"

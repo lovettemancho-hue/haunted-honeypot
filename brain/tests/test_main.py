@@ -25,11 +25,14 @@ def test_all_api_routes_require_token(engine: Engine, log_dir: Path, tmp_path: P
     paths = [p for p in app.openapi()["paths"] if p.startswith("/api")]
     assert "/api/stats" in paths and "/api/containment" in paths
     client = TestClient(app)
-    for path in paths:
+    for path, ops in app.openapi()["paths"].items():
+        if not path.startswith("/api"):
+            continue
         url = path.replace("{session_id}", "nope").replace("{id}", "nope")
-        assert client.get(url).status_code == 401
-        bad = client.get(url, headers={"Authorization": "Bearer wrong"})
-        assert bad.status_code == 401
+        for method in ops:  # write endpoints (review marks) need the token too
+            assert client.request(method, url).status_code == 401
+            bad = client.request(method, url, headers={"Authorization": "Bearer wrong"})
+            assert bad.status_code == 401
     ok = client.get("/api/stats", headers={"Authorization": f"Bearer {TOKEN}"})
     assert ok.status_code == 200
 

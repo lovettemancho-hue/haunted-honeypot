@@ -104,3 +104,51 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Technique rows link to their tapes; show the technique name next to the id. */
+.bar-list__item {
+  grid-template-columns: minmax(9rem, 15rem) 1fr 3rem;
+}
+.bar-list__id {
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1.25;
+}
+.bar-list__id:hover,
+.bar-list__id:focus-visible {
+  color: var(--volt);
+  text-decoration: underline;
+}
+.bar-list__name {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+.stat-card__link {
+  display: inline-block;
+  margin-top: var(--space-2);
+  color: var(--volt);
+  font-size: var(--fs-sm);
+}
+.review-callout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3);
+  border-left: 3px solid var(--volt);
+  background: var(--panel-inset);
+}
+.review-callout .btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.lab-monitor__more {
+  margin: var(--space-3) 0 0;
+  text-align: right;
+}
+.lab-monitor__more a { color: var(--volt); }

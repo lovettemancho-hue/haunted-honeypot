@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   ApiSeverity,
   ContainmentRule,
   SessionDetailResponse,
@@ -6,6 +6,7 @@
   SessionListItem,
   SessionListResponse,
   SessionTechnique,
+  SessionSummary,
   StatsResponse,
 } from "./types";
 
@@ -71,6 +72,7 @@ export function normalizeSessionListItem(raw: unknown): SessionListItem | null {
     attack_ids: Array.isArray(raw.techniques) ? strList(raw.techniques) : strList(raw.attack_ids),
   };
   if (description !== null) item.severity_description = description;
+  if (raw.reviewed === true) item.reviewed = true;
   return item;
 }
 
@@ -155,4 +157,25 @@ export function normalizeContainment(raw: unknown): ContainmentRule[] {
       },
     ];
   });
+}
+
+export function normalizeSummary(raw: unknown): SessionSummary {
+  const r: Rec = isRec(raw) ? raw : {};
+  const sev: Record<string, number> = {};
+  if (isRec(r.by_severity)) {
+    for (const [k, v] of Object.entries(r.by_severity)) sev[k] = num(v);
+  }
+  const tech: Array<{ id: string; count: number }> = [];
+  if (isRec(r.by_technique)) {
+    for (const [k, v] of Object.entries(r.by_technique)) tech.push({ id: k, count: num(v) });
+  }
+  tech.sort((a, b) => b.count - a.count || a.id.localeCompare(b.id));
+  return {
+    total: num(r.total),
+    unreviewed: num(r.unreviewed),
+    by_severity: sev,
+    by_technique: tech,
+    first_seen: strOrNull(r.first_seen),
+    last_seen: strOrNull(r.last_seen),
+  };
 }
