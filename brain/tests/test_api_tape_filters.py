@@ -131,3 +131,16 @@ def test_bulk_review_ignores_unknown_ids_and_caps_size(client: TestClient) -> No
     assert client.get("/api/sessions/summary").json()["unreviewed"] == 3
     too_many = client.post("/api/sessions/review", json={"ids": ["x"] * 501, "reviewed": True})
     assert too_many.status_code == 422
+
+
+def test_repeat_count_counts_tapes_from_the_same_ip(client: TestClient) -> None:
+    items = _all(client)
+    for i in items:
+        same = sum(1 for j in items if j["src_ip"] == i["src_ip"])
+        assert i["repeat_count"] == same
+
+
+def test_search_treats_like_wildcards_literally(client: TestClient) -> None:
+    assert _all(client, q="%") == []
+    assert _all(client, q="_") == []
+    assert _all(client, q="\\") == []

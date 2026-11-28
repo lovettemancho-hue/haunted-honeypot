@@ -400,3 +400,10 @@
   font-size: var(--fs-sm);
 }
 .specimen-history .attacker-text { font-family: var(--font-mono); }
+.tape-row__repeat {
+  padding: 0 5px;
+  border: 1px solid var(--copper);
+  color: var(--copper);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}

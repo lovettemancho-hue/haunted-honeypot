@@ -182,6 +182,15 @@ export function TapeList({
                     <span className="tape-row__user">
                       {s.username ? <AttackerText value={s.username} /> : "—"}
                     </span>
+                    {s.repeat_count && s.repeat_count > 1 ? (
+                      <span
+                        className="tape-row__repeat"
+                        title={`This IP has ${s.repeat_count} tapes: a returning attacker`}
+                      >
+                        ×{s.repeat_count}
+                        <span className="visually-hidden"> tapes from this IP</span>
+                      </span>
+                    ) : null}
                     <span className="tape-row__time" title={formatTimestamp(s.started_at)}>
                       <span className="visually-hidden">{day} </span>
                       {timeOfDay(s.started_at)}

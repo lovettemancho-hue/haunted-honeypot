@@ -136,9 +136,14 @@ def _candidate_ids(
     if f.ip:
         stmt = stmt.where(SessionRow.src_ip == f.ip)
     if f.q:
-        pattern = f"%{f.q}%"
+        # Match the text literally: escape LIKE's own wildcards.
+        literal = f.q.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+        pattern = f"%{literal}%"
         stmt = stmt.where(
-            or_(col(SessionRow.src_ip).like(pattern), col(SessionRow.username).like(pattern))
+            or_(
+                col(SessionRow.src_ip).like(pattern, escape="\\"),
+                col(SessionRow.username).like(pattern, escape="\\"),
+            )
         )
     if f.since is not None:
         stmt = stmt.where(col(SessionRow.started_at) >= f.since)
@@ -208,6 +213,14 @@ def list_sessions(
     rows = {r.id: r for r in page_rows}
     derived = _derive(db, page_ids)
     reviewed = _reviewed(db, page_ids)
+    ips = sorted({r.src_ip for r in page_rows})
+    repeats = dict(
+        db.exec(
+            select(SessionRow.src_ip, func.count())
+            .where(col(SessionRow.src_ip).in_(ips))
+            .group_by(col(SessionRow.src_ip))
+        ).all()
+    )
     items: list[SessionListItem] = []
     for sid in page_ids:
         row = rows[sid]
@@ -223,6 +236,7 @@ def list_sessions(
                 open=row.ended_at is None,
                 techniques=derived.attacks.get(sid, []),
                 reviewed=sid in reviewed,
+                repeat_count=repeats.get(row.src_ip, 1),
             )
         )
     return items

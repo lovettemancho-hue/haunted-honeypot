@@ -54,6 +54,7 @@ class SessionListItem(BaseModel):
     open: bool
     techniques: list[str]
     reviewed: bool = False
+    repeat_count: int = 1
 
 
 class TechniqueOut(BaseModel):

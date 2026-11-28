@@ -24,6 +24,8 @@ export interface SessionListItem {
   severity_description?: string;
   /** An analyst marked this tape as reviewed. */
   reviewed?: boolean;
+  /** How many tapes this source IP has in total (repeat attackers). */
+  repeat_count?: number;
 }
 
 export type SessionListResponse = SessionListItem[];

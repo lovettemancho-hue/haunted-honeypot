@@ -73,6 +73,9 @@ export function normalizeSessionListItem(raw: unknown): SessionListItem | null {
   };
   if (description !== null) item.severity_description = description;
   if (raw.reviewed === true) item.reviewed = true;
+  if (typeof raw.repeat_count === "number" && Number.isFinite(raw.repeat_count)) {
+    item.repeat_count = raw.repeat_count;
+  }
   return item;
 }
 
